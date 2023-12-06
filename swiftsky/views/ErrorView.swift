@@ -6,20 +6,19 @@
 import SwiftUI
 
 struct ErrorView: View {
-  let error: String
-  var action: () -> ()
-  var body: some View {
-      Group {
-        Text(error)
-          .multilineTextAlignment(.center)
-          .lineLimit(nil)
-        Button("\(Image(systemName: "arrow.clockwise")) Retry") {
-          action()
+    let error: String
+    var action: () -> Void
+    var body: some View {
+        Group {
+            Text(error)
+                .multilineTextAlignment(.center)
+                .lineLimit(nil)
+            Button("\(Image(systemName: "arrow.clockwise")) Retry") {
+                action()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
         }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.large)
-      }
-      .frame(maxWidth: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 }
-

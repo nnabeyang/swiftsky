@@ -83,6 +83,7 @@
 		36EB223629F7A71E007DF9DF /* feedgetPosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EB223529F7A71E007DF9DF /* feedgetPosts.swift */; };
 		36F4423F2A07DEE2009D2F0C /* ToolTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F4423E2A07DEE2009D2F0C /* ToolTipView.swift */; };
 		36F442412A07E3C7009D2F0C /* ProfilePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F442402A07E3C7009D2F0C /* ProfilePreview.swift */; };
+		F90EEFC92B206BF8002A2707 /* SwiftFormat in Frameworks */ = {isa = PBXBuildFile; productRef = F90EEFC82B206BF8002A2707 /* SwiftFormat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F90EEFC92B206BF8002A2707 /* SwiftFormat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +353,9 @@
 			dependencies = (
 			);
 			name = swiftsky;
+			packageProductDependencies = (
+				F90EEFC82B206BF8002A2707 /* SwiftFormat */,
+			);
 			productName = swiftsky;
 			productReference = 36AEF58B29C48F0800B68B24 /* swiftsky.app */;
 			productType = "com.apple.product-type.application";
@@ -381,6 +386,9 @@
 				Base,
 			);
 			mainGroup = 36AEF58229C48F0800B68B24;
+			packageReferences = (
+				F90EEFC72B206BF8002A2707 /* XCRemoteSwiftPackageReference "SwiftFormat" */,
+			);
 			productRefGroup = 36AEF58C29C48F0800B68B24 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -682,6 +690,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F90EEFC72B206BF8002A2707 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/SwiftFormat";
+			requirement = {
+				kind = exactVersion;
+				version = 0.52.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F90EEFC82B206BF8002A2707 /* SwiftFormat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F90EEFC72B206BF8002A2707 /* XCRemoteSwiftPackageReference "SwiftFormat" */;
+			productName = SwiftFormat;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 36AEF58329C48F0800B68B24 /* Project object */;
 }
