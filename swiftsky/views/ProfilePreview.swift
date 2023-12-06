@@ -7,7 +7,7 @@ import SwiftUI
 
 struct ProfilePreview: View {
     let did: String
-    @State private var profile: ActorDefsProfileViewDetailed? = nil
+    @State private var profile: appbskytypes.ActorDefs_ProfileViewDetailed?
     @State private var height = 50.0
     @State private var loading = false
     @State private var usernamehover = false
@@ -18,7 +18,7 @@ struct ProfilePreview: View {
     func load() async {
         loading = true
         do {
-            profile = try await actorgetProfile(actor: did)
+            profile = try await appbskytypes.ActorGetProfile(actor: did)
         } catch {
             self.error = error.localizedDescription
         }
@@ -31,8 +31,8 @@ struct ProfilePreview: View {
             if let result = try? await followUser(
                 did: did)
             {
-                profile!.viewer?.following = result.uri
-                profile!.followersCount += 1
+                profile?.viewer?.following = result.uri
+                profile?.followersCount? += 1
             }
             disablefollowbutton = false
         }
@@ -41,12 +41,16 @@ struct ProfilePreview: View {
     private func unfollow() {
         disablefollowbutton = true
         Task {
-            let result = try? await repoDeleteRecord(
-                uri: profile!.viewer!.following!, collection: "app.bsky.graph.follow"
-            )
+            let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                collection: "app.bsky.graph.follow",
+                repo: XRPCClient.shared.auth.did,
+                rkey: AtUri(uri: profile!.viewer!.following!).rkey,
+                swapCommit: nil,
+                swapRecord: nil
+            ))
             if result == true {
                 profile!.viewer!.following = nil
-                profile!.followersCount -= 1
+                profile!.followersCount? -= 1
             }
             disablefollowbutton = false
         }
@@ -77,7 +81,7 @@ struct ProfilePreview: View {
                     HStack(alignment: .top) {
                         AvatarView(url: profile.avatar, size: 40)
                         Spacer()
-                        if profile.did != Client.shared.did {
+                        if profile.did != XRPCClient.shared.auth.did {
                             Button(profile.viewer?.following != nil ? "Following" : "Follow") {
                                 profile.viewer?.following != nil ? unfollow() : follow()
                             }
@@ -117,7 +121,7 @@ struct ProfilePreview: View {
                             path.append(.followers(profile.handle))
                         } label: {
                             HStack(spacing: 0) {
-                                Text("\(profile.followersCount) ")
+                                Text("\(profile.followersCount ?? 0) ")
                                 Text("followers").opacity(0.5)
                             }
                         }
@@ -126,7 +130,7 @@ struct ProfilePreview: View {
                             path.append(.following(profile.handle))
                         } label: {
                             HStack(spacing: 0) {
-                                Text("\(profile.followsCount) ")
+                                Text("\(profile.followsCount ?? 0) ")
                                 Text("following").opacity(0.5)
                             }
                         }

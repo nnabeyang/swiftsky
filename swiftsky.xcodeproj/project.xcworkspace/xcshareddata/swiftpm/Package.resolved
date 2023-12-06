@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "swift-atproto",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nnabeyang/swift-atproto.git",
+      "state" : {
+        "revision" : "d7112ff76cc866d751e647014b80d18d5c55ce6a",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "swiftformat",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nicklockwood/SwiftFormat",

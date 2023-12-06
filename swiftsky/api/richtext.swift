@@ -8,7 +8,7 @@ import Foundation
 struct RichTextSegment: Identifiable {
     let id = UUID()
     let text: String
-    var facet: RichtextFacet? = nil
+    var facet: appbskytypes.RichtextFacet? = nil
 
     func link() -> String? {
         facet?.features.first(where: { $0.uri != nil })?.uri
@@ -21,9 +21,9 @@ struct RichTextSegment: Identifiable {
 
 struct RichText {
     let text: String
-    let facets: [RichtextFacet]?
-    func detectFacets() async -> [RichtextFacet] {
-        var facets: [RichtextFacet] = []
+    let facets: [appbskytypes.RichtextFacet]?
+    func detectFacets() async -> [appbskytypes.RichtextFacet] {
+        var facets = [appbskytypes.RichtextFacet]()
         let mentionmatches = try? NSRegularExpression(pattern: "(^|\\s|\\()(@)([a-zA-Z0-9.-]+)(\\b)", options: [])
             .matches(in: text, range: NSRange(location: 0, length: text.utf16.count))
         let urlmatches = try? NSRegularExpression(pattern: "(^|\\s|\\()((https?:\\/\\/[\\S]+)|((?<domain>[a-z][a-z0-9]*(\\.[a-z0-9]+)+)[\\S]*))", options: [])
@@ -35,7 +35,11 @@ struct RichText {
                     if !url.starts(with: "http") {
                         url = "https://\(url)"
                     }
-                    let facet = RichtextFacet(features: [RichtextFacetFeatures(type: "app.bsky.richtext.facet#link", uri: String(url))], index: RichtextFacetByteSlice(byteEnd: text.utf8.distance(from: text.startIndex, to: range.upperBound), byteStart: text.utf8.distance(from: text.startIndex, to: range.lowerBound)))
+                    let facet = appbskytypes.RichtextFacet(
+                        features: [.richtextFacetLink(.init(uri: String(url)))],
+                        index: .init(byteEnd: text.utf8.distance(from: text.startIndex, to: range.upperBound),
+                                     byteStart: text.utf8.distance(from: text.startIndex, to: range.lowerBound))
+                    )
                     facets.append(facet)
                 }
             }
@@ -45,10 +49,14 @@ struct RichText {
             for match in mentionmatches {
                 if let range = Range(match.range(at: 3), in: text) {
                     let handle = text[range]
-                    guard let did = try? await IdentityResolveHandle(handle: String(handle)) else {
+                    guard let did = try? await comatprototypes.IdentityResolveHandle(handle: String(handle)) else {
                         continue
                     }
-                    let facet = RichtextFacet(features: [RichtextFacetFeatures(type: "app.bsky.richtext.facet#mention", did: did.did)], index: RichtextFacetByteSlice(byteEnd: text.utf8.distance(from: text.startIndex, to: range.upperBound), byteStart: text.utf8.distance(from: text.startIndex, to: range.lowerBound) - 1))
+                    let facet = appbskytypes.RichtextFacet(
+                        features: [.richtextFacetMention(.init(did: did.did))],
+                        index: .init(byteEnd: text.utf8.distance(from: text.startIndex, to: range.upperBound), byteStart: text.utf8.distance(from: text.startIndex, to: range.lowerBound) - 1)
+                    )
+
                     facets.append(facet)
                 }
             }

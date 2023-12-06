@@ -19,27 +19,39 @@ struct NewPostView: View {
     @State private var error: String?
     @State private var images: [ImageAttachment] = []
     @StateObject private var globalmodel = GlobalViewModel.shared
-    var post: FeedDefsPostView? = nil
+    var post: appbskytypes.FeedDefs_PostView?
     var isquote: Bool = false
     func makepost() {
         disablebuttons = true
         Task {
             do {
-                var images: [EmbedImagesImage] = []
+                var images = [appbskytypes.EmbedImages_Image]()
                 for image in self.images {
-                    let result = try await repouploadBlob(data: image.data)
-                    images.append(.init(alt: "", image: result.blob))
+                    let result = try await comatprototypes.RepoUploadBlob(input: image.data)
+                    images.append(.init(alt: "", aspectRatio: nil, image: result.blob))
                 }
-                let embed = EmbedRef(record: isquote ? .init(cid: post!.cid, uri: post!.uri) : nil, images: !images.isEmpty ? .init(images: images) : nil)
-                var replyref: FeedPostReplyRef? = nil
-                if !isquote, let post {
-                    let parent = RepoStrongRef(cid: post.cid, uri: post.uri)
-                    let root = post.record.reply != nil ? RepoStrongRef(cid: post.record.reply!.root.cid, uri: post.record.reply!.root.uri) : parent
-                    replyref = FeedPostReplyRef(parent: parent, root: root)
+                let embed: appbskytypes.FeedPost_Embed?
+                if isquote {
+                    embed = .embedRecord(.init(record: .init(cid: post!.cid, uri: post!.uri)))
+                } else if !images.isEmpty {
+                    embed = .embedImages(.init(images: images))
+                } else {
+                    embed = nil
+                }
+                var replyref: appbskytypes.FeedPost_ReplyRef? = nil
+                if !isquote, let post, let record = post.record.val as? appbskytypes.FeedPost {
+                    let parent = comatprototypes.RepoStrongRef(cid: post.cid, uri: post.uri)
+                    let root: comatprototypes.RepoStrongRef
+                    if let reply = record.reply {
+                        root = comatprototypes.RepoStrongRef(cid: reply.root.cid, uri: reply.root.uri)
+                    } else {
+                        root = parent
+                    }
+                    replyref = appbskytypes.FeedPost_ReplyRef(parent: parent, root: root)
                 }
                 let rt = RichText(text: text, facets: nil)
                 let facets = await rt.detectFacets()
-                let _ = try await makePost(text: text, reply: replyref, facets: facets, embed: embed.isValid() ? embed : nil)
+                let _ = try await makePost(text: text, reply: replyref, facets: facets, embed: embed)
                 dismiss()
             } catch {
                 self.error = error.localizedDescription
@@ -74,7 +86,7 @@ struct NewPostView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(post.author.displayName ?? post.author.handle)
                             .fontWeight(.semibold)
-                        Text(post.record.text)
+                        Text((post.record.val as? appbskytypes.FeedPost)?.text ?? "")
                     }
                     Spacer()
                 }

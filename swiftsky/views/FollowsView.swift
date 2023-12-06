@@ -6,7 +6,7 @@
 import SwiftUI
 
 private struct FollowsRowView: View {
-    @State var user: ActorDefsProfileViewBasic
+    @State var user: appbskytypes.ActorDefs_ProfileView
     @State var usernamehover: Bool = false
     @State var followingdisabled: Bool = false
     @Binding var path: [Navigation]
@@ -28,9 +28,13 @@ private struct FollowsRowView: View {
         followingdisabled = true
         Task {
             do {
-                let result = try await repoDeleteRecord(
-                    uri: user.viewer!.following!, collection: "app.bsky.graph.follow"
-                )
+                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.graph.follow",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: user.viewer!.following!).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                ))
                 if result {
                     user.viewer!.following = nil
                 }
@@ -65,7 +69,7 @@ private struct FollowsRowView: View {
                 }
             }
             Spacer()
-            if user.did != Client.shared.did {
+            if user.did != XRPCClient.shared.auth.did {
                 let following = user.viewer?.following != nil
                 Button {
                     following ? unfollow() : follow()
@@ -90,19 +94,21 @@ private struct FollowsRowView: View {
 
 struct FollowsView: View {
     let handle: String
-    @State var follows: graphGetFollowsOutput? = nil
+    @State var follows: appbskytypes.GraphGetFollows_Output? = nil
     @Binding var path: [Navigation]
     func getFollows() async {
         do {
-            follows = try await graphGetFollows(actor: handle)
+            follows = try await appbskytypes.GraphGetFollows(actor: handle, cursor: nil, limit: 30)
         } catch {}
     }
 
     func getMoreFollows(cursor: String) async {
         do {
-            let result = try await graphGetFollows(actor: handle, cursor: cursor)
-            follows!.cursor = result.cursor
-            follows!.follows.append(contentsOf: result.follows)
+            let result = try await appbskytypes.GraphGetFollows(actor: handle, cursor: cursor, limit: 30)
+            follows = appbskytypes.GraphGetFollows_Output(
+                cursor: result.cursor,
+                follows: follows!.follows + result.follows, subject: result.subject
+            )
         } catch {}
     }
 
@@ -113,7 +119,7 @@ struct FollowsView: View {
                     FollowsRowView(user: user, path: $path)
                         .padding(5)
                         .task {
-                            if user == follows.follows.last {
+                            if user === follows.follows.last {
                                 if let cursor = follows.cursor {
                                     await getMoreFollows(cursor: cursor)
                                 }

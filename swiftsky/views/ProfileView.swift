@@ -35,9 +35,9 @@ private struct ProfileViewTabs: View {
 
 struct ProfileView: View {
     let did: String
-    @State var profile: ActorDefsProfileViewDetailed?
-    @State private var authorfeed = FeedGetAuthorFeedOutput()
-    @State private var likedposts = FeedGetAuthorFeedOutput()
+    @State var profile: appbskytypes.ActorDefs_ProfileViewDetailed?
+    @State private var authorfeed = appbskytypes.FeedGetAuthorFeed_Output(cursor: nil, feed: [])
+    @State private var likedposts = appbskytypes.FeedGetAuthorFeed_Output(cursor: nil, feed: [])
     @State private var selectedtab = 0
     @State private var loading = false
     @State private var error = ""
@@ -48,21 +48,19 @@ struct ProfileView: View {
     let tablist: [String] = ["Posts", "Posts & Replies", "Likes"]
     private func getProfile() async {
         do {
-            profile = try await actorgetProfile(actor: did)
+            profile = try await appbskytypes.ActorGetProfile(actor: did)
         } catch {}
     }
 
     private func getFeed(cursor: String? = nil) async {
         do {
-            let authorfeed = try await getAuthorFeed(actor: did, cursor: cursor)
+            let authorfeed = try await appbskytypes.FeedGetAuthorFeed(actor: did, cursor: cursor, filter: "posts_with_replies", limit: 50)
             if cursor == nil {
                 self.authorfeed = authorfeed
                 return
             }
-            self.authorfeed.cursor = authorfeed.cursor
-            if !authorfeed.feed.isEmpty {
-                self.authorfeed.feed.append(contentsOf: authorfeed.feed)
-            }
+            self.authorfeed = appbskytypes.FeedGetAuthorFeed_Output(cursor: authorfeed.cursor,
+                                                                    feed: self.authorfeed.feed + authorfeed.feed)
         } catch {
             self.error = error.localizedDescription
         }
@@ -70,15 +68,25 @@ struct ProfileView: View {
 
     private func getLikes(cursor: String? = nil) async {
         do {
-            let records = try await RepoListRecords(collection: "app.bsky.feed.like", cursor: cursor, limit: 25, repo: did)
+            let records = try await comatprototypes.RepoListRecords(
+                collection: "app.bsky.feed.like",
+                cursor: cursor,
+                limit: 25,
+                repo: did,
+                reverse: nil,
+                rkeyEnd: nil,
+                rkeyStart: nil
+            )
             likedposts.cursor = records.cursor
-            let uris = records.records.map(\.value.subject.uri)
+            let uris = records.records.compactMap {
+                ($0.value.val as? appbskytypes.FeedLike)?.subject.uri
+            }
             if uris.isEmpty {
                 return
             }
-            let posts = try await feedgetPosts(uris: uris)
+            let posts = try await appbskytypes.FeedGetPosts(uris: uris)
                 .posts.map {
-                    FeedDefsFeedViewPost(post: $0)
+                    appbskytypes.FeedDefs_FeedViewPost(post: $0, reason: nil, reply: nil)
                 }
             if cursor != nil {
                 likedposts.feed.append(contentsOf: posts)
@@ -95,9 +103,13 @@ struct ProfileView: View {
         disablefollowbutton = true
         Task {
             do {
-                let result = try await repoDeleteRecord(
-                    uri: profile!.viewer!.following!, collection: "app.bsky.graph.follow"
-                )
+                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.graph.follow",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: profile!.viewer!.following!).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                ))
                 if result {
                     profile!.viewer!.following = nil
                 }
@@ -112,9 +124,13 @@ struct ProfileView: View {
         disableblockbutton = true
         Task {
             do {
-                let result = try await repoDeleteRecord(
-                    uri: profile!.viewer!.blocking!, collection: "app.bsky.graph.block"
-                )
+                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.graph.block",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: profile!.viewer!.blocking!).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                ))
                 if result {
                     await load()
                 }
@@ -153,7 +169,7 @@ struct ProfileView: View {
         }
     }
 
-    var feedarray: [FeedDefsFeedViewPost] {
+    var feedarray: [appbskytypes.FeedDefs_FeedViewPost] {
         switch selectedtab {
         case 1:
             authorfeed.feed
@@ -161,7 +177,8 @@ struct ProfileView: View {
             likedposts.feed
         default:
             authorfeed.feed.filter {
-                $0.post.record.reply == nil || $0.reason != nil
+                guard let record = $0.post.record.val as? appbskytypes.FeedPost else { return false }
+                return record.reply == nil || $0.reason != nil
             }
         }
     }
@@ -242,7 +259,7 @@ struct ProfileView: View {
 
                 Spacer()
                 Group {
-                    if profile!.did != Client.shared.did {
+                    if profile!.did != XRPCClient.shared.auth.did {
                         if profile!.viewer?.blocking == nil {
                             followbutton
                         } else {
@@ -251,7 +268,7 @@ struct ProfileView: View {
                     }
                     Menu {
                         ShareLink(item: URL(string: "https://staging.bsky.app/profile/\(profile!.handle)")!)
-                        if profile!.did != Client.shared.did, profile!.viewer?.blocking == nil {
+                        if profile!.did != XRPCClient.shared.auth.did, profile!.viewer?.blocking == nil {
                             Button("Block") {
                                 isblockalertPresented = true
                             }
@@ -309,16 +326,16 @@ struct ProfileView: View {
                     Button {
                         path.append(.followers(profile!.handle))
                     } label: {
-                        Text("\(profile!.followersCount) \(Text("followers").foregroundColor(.secondary))")
+                        Text("\(profile!.followersCount ?? 0) \(Text("followers").foregroundColor(.secondary))")
                     }
                     .buttonStyle(.plain)
                     Button {
                         path.append(.following(profile!.handle))
                     } label: {
-                        Text("\(profile!.followsCount) \(Text("following").foregroundColor(.secondary))")
+                        Text("\(profile!.followsCount ?? 0) \(Text("following").foregroundColor(.secondary))")
                     }
                     .buttonStyle(.plain)
-                    Text("\(profile!.postsCount) \(Text("posts").foregroundColor(.secondary))")
+                    Text("\(profile!.postsCount ?? 0) \(Text("posts").foregroundColor(.secondary))")
                 }
                 if let description = profile!.description, !description.isEmpty {
                     Text(description)
@@ -334,7 +351,7 @@ struct ProfileView: View {
         let feed = feedarray
         ForEach(feed) { post in
             PostView(
-                post: post.post, reply: post.reply?.parent.author.handle, repost: post.reason,
+                post: post.post, reply: post.reply?.parent.author?.handle, repost: post.reason?.repost,
                 path: $path
             )
             .padding(.horizontal)
@@ -344,7 +361,7 @@ struct ProfileView: View {
                 path.append(.thread(post.post.uri))
             }
             .task {
-                if post == feed.last {
+                if post === feed.last {
                     if selectedtab == 2, let cursor = likedposts.cursor {
                         loading = true
                         await getLikes(cursor: cursor)

@@ -8,8 +8,8 @@ import SwiftUI
 struct ThreadView: View {
     var uri: String
     @State var error: String?
-    @State var threadviewpost: FeedGetPostThreadThreadViewPost? = nil
-    @State var parents: [FeedGetPostThreadThreadViewPost] = []
+    @State var threadviewpost: appbskytypes.FeedDefs_ThreadViewPost?
+    @State var parents = [appbskytypes.FeedDefs_ThreadViewPost]()
     @State var replypresented: Bool = false
     @Binding var path: [Navigation]
     @StateObject private var globalmodel = GlobalViewModel.shared
@@ -17,11 +17,11 @@ struct ThreadView: View {
         threadviewpost = nil
         parents = []
         do {
-            let result = try await getPostThread(uri: uri)
-            if let thread = result.thread {
+            let result = try await appbskytypes.FeedGetPostThread(depth: 6, parentHeight: 80, uri: uri)
+            if case let .feedDefsThreadViewPost(thread) = result.thread {
                 threadviewpost = thread
                 var currentparent = thread.parent
-                while let parent = currentparent {
+                while case let .feedDefsThreadViewPost(parent) = currentparent {
                     parents.append(parent)
                     currentparent = parent.parent
                 }
@@ -38,14 +38,14 @@ struct ThreadView: View {
 
     var parentPosts: some View {
         ForEach(parents) { parent in
-            if let parentpost = parent.post {
-                PostView(post: parentpost, reply: parent.parent?.post?.author.handle, path: $path)
+            Group {
+                PostView(post: parent.post, reply: parent.parent?.post?.author.handle, path: $path)
                     .padding([.top, .horizontal])
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        path.append(.thread(parentpost.uri))
+                        path.append(.thread(parent.post.uri))
                     }
-                PostFooterView(bottompadding: false, post: parentpost, path: $path)
+                PostFooterView(bottompadding: false, post: parent.post, path: $path)
             }
         }
     }
@@ -129,7 +129,7 @@ struct ThreadView: View {
             .environment(\.defaultMinListRowHeight, 1)
             .listStyle(.plain)
             .navigationTitle(
-                threadviewpost?.post != nil ? "\(threadviewpost!.post!.author.handle)'s post" : "Post"
+                threadviewpost?.post != nil ? "\(threadviewpost!.post.author.handle)'s post" : "Post"
             )
             .task {
                 await load()

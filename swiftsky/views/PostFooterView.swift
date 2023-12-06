@@ -30,8 +30,8 @@ struct PostLikesSubview: View {
 }
 
 struct PostLikesView: View {
-    @State var post: FeedDefsPostView
-    @State var likes = feedgetLikesOutput()
+    @State var post: appbskytypes.FeedDefs_PostView
+    @State var likes = appbskytypes.FeedGetLikes_Output(cid: nil, cursor: nil, likes: [], uri: "")
     @State var loading = true
     @State var error = ""
     @State var listheight = 40.0
@@ -40,9 +40,9 @@ struct PostLikesView: View {
         Task {
             loading = true
             do {
-                let likes = try await feedgetLikes(cid: post.cid, cursor: likes.cursor, uri: post.uri)
-                self.likes.likes.append(contentsOf: likes.likes)
-                self.likes.cursor = likes.cursor
+                let likes = try await appbskytypes.FeedGetLikes(cid: post.cid, cursor: likes.cursor, limit: 30, uri: post.uri)
+                likes.likes.insert(contentsOf: self.likes.likes, at: 0)
+                self.likes = likes
                 if !self.likes.likes.isEmpty {
                     listheight = min(Double(self.likes.likes.count) * 42.0, 250)
                 }
@@ -112,7 +112,7 @@ struct PostLikesView: View {
 struct PostFooterView: View {
     var bottompadding = true
     var leadingpadding = 68.0
-    @State var post: FeedDefsPostView
+    @State var post: appbskytypes.FeedDefs_PostView
     @State private var likedisabled: Bool = false
     @State private var repostdisabled: Bool = false
     @State private var likesunderline: Bool = false
@@ -124,64 +124,78 @@ struct PostFooterView: View {
     @AppStorage("hidelikecount") private var hidelikecount = false
     @AppStorage("hiderepostcount") private var hiderepostcount = false
     func like() {
-        post.viewer.like = ""
-        post.likeCount += 1
+        post.viewer?.like = ""
+        post.likeCount? += 1
+
         Task {
             do {
                 let result = try await likePost(uri: post.uri, cid: post.cid)
-                post.viewer.like = result.uri
+                post.viewer?.like = result.uri
             } catch {
-                post.viewer.like = nil
-                post.likeCount -= 1
+                post.viewer?.like = nil
+                post.likeCount? -= 1
             }
             likedisabled = false
         }
     }
 
     func unlike() {
-        let like = post.viewer.like
-        post.viewer.like = nil
-        post.likeCount -= 1
+        guard let viewer = post.viewer else { return }
+        viewer.like = nil
+        post.likeCount? -= 1
+        guard let like = viewer.like else { return }
         Task {
             do {
-                if try await repoDeleteRecord(uri: like!, collection: "app.bsky.feed.like") {
-                    post.viewer.like = nil
+                if try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.feed.like",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: like).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                )) {
+                    viewer.like = nil
                 }
             } catch {
-                post.viewer.like = like
-                post.likeCount += 1
+                viewer.like = like
+                post.likeCount? += 1
             }
             likedisabled = false
         }
     }
 
     func repost() {
-        post.viewer.repost = ""
-        post.repostCount += 1
+        post.viewer?.repost = ""
+        post.repostCount? += 1
         Task {
             do {
                 let result = try await RepostPost(uri: post.uri, cid: post.cid)
-                post.viewer.repost = result.uri
+                post.viewer?.repost = result.uri
             } catch {
-                post.viewer.repost = nil
-                post.repostCount -= 1
+                post.viewer?.repost = nil
+                post.repostCount? -= 1
             }
             repostdisabled = false
         }
     }
 
     func undorepost() {
-        let repost = post.viewer.repost
-        post.viewer.repost = nil
-        post.repostCount -= 1
+        guard let repost = post.viewer?.repost else { return }
+        post.viewer?.repost = nil
+        post.repostCount? -= 1
         Task {
             do {
-                if try await repoDeleteRecord(uri: repost!, collection: "app.bsky.feed.repost") {
-                    post.viewer.repost = nil
+                if try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.feed.repost",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: repost).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                )) {
+                    post.viewer?.repost = nil
                 }
             } catch {
-                post.viewer.repost = repost
-                post.repostCount += 1
+                post.viewer?.repost = repost
+                post.repostCount? += 1
             }
             repostdisabled = false
         }
@@ -192,24 +206,24 @@ struct PostFooterView: View {
             Button {
                 isreplypostPresented.toggle()
             } label: {
-                Text("\(Image(systemName: "bubble.right")) \(post.replyCount)")
+                Text("\(Image(systemName: "bubble.right")) \(post.replyCount ?? 0)")
             }
             .buttonStyle(.plain)
             .frame(width: 70, alignment: .leading)
             Button {
                 isrepostPresented.toggle()
             } label: {
-                Text("\(Image(systemName: "arrow.triangle.2.circlepath")) \(hiderepostcount ? "Hidden" : "\(post.repostCount)")")
-                    .foregroundColor(post.viewer.repost != nil ? .cyan : .secondary)
+                Text("\(Image(systemName: "arrow.triangle.2.circlepath")) \(hiderepostcount ? "Hidden" : "\(post.repostCount ?? 0)")")
+                    .foregroundColor(post.viewer?.repost != nil ? .cyan : .secondary)
                     .popover(isPresented: $isrepostPresented, arrowEdge: .bottom) {
                         VStack(alignment: .leading) {
                             Button {
                                 isrepostPresented = false
                                 repostdisabled = true
-                                post.viewer.repost == nil ? repost() : undorepost()
+                                post.viewer?.repost == nil ? repost() : undorepost()
                             } label: {
                                 Image(systemName: "arrowshape.turn.up.backward.fill")
-                                Text(post.viewer.repost == nil ? "Repost" : "Undo repost")
+                                Text(post.viewer?.repost == nil ? "Repost" : "Undo repost")
                                     .font(.system(size: 15))
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
                                     .contentShape(Rectangle())
@@ -239,7 +253,7 @@ struct PostFooterView: View {
                 Button {
                     if !likedisabled {
                         likedisabled = true
-                        if post.viewer.like == nil {
+                        if post.viewer?.like == nil {
                             like()
                         } else {
                             unlike()
@@ -251,7 +265,7 @@ struct PostFooterView: View {
                 .disabled(likedisabled)
                 .buttonStyle(.plain)
                 .frame(alignment: .leading)
-                Text(hidelikecount ? "Hidden" : "\(post.likeCount)")
+                Text(hidelikecount ? "Hidden" : "\(post.likeCount ?? 0)")
                     .underline(likesunderline)
                     .hoverHand {
                         likesunderline = $0
@@ -264,7 +278,7 @@ struct PostFooterView: View {
                     }
                     .frame(alignment: .leading)
             }
-            .foregroundColor(post.viewer.like != nil ? .pink : .secondary)
+            .foregroundColor(post.viewer?.like != nil ? .pink : .secondary)
         }
         .padding(.bottom, bottompadding ? 10 : 0)
         .padding(.leading, leadingpadding)

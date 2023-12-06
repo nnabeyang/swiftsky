@@ -6,13 +6,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var timeline: FeedGetTimelineOutput = .init()
+    @State var timeline: appbskytypes.FeedGetTimeline_Output = .init(cursor: nil, feed: [])
     @State var loading = false
     @Binding var path: [Navigation]
     func loadContent() async {
         loading = true
         do {
-            timeline = try await getTimeline()
+            timeline = try await appbskytypes.FeedGetTimeline(algorithm: "reverse-chronological", cursor: nil, limit: 30)
         } catch {
             print(error)
         }
@@ -23,17 +23,18 @@ struct HomeView: View {
         List {
             Group {
                 let filteredfeed = timeline.feed.filter {
-                    let reply = $0.reply?.parent.author
-                    let following = reply?.viewer?.following
+                    let reply = $0.reply?.parent.post
+                    let author = reply?.author
+                    let following = author?.viewer?.following
                     let repost = $0.reason
-                    return (reply == nil || following != nil || reply?.did == Client.shared.did || $0.post.likeCount >= 5) || repost != nil
+                    return (reply == nil || following != nil || author?.did == XRPCClient.shared.auth.did || ($0.post.likeCount ?? 0) >= 5) || repost != nil
                 }
                 if loading, !filteredfeed.isEmpty {
                     ProgressView().frame(maxWidth: .infinity, alignment: .center)
                 }
                 ForEach(filteredfeed) { post in
                     PostView(
-                        post: post.post, reply: post.reply?.parent.author.handle, repost: post.reason,
+                        post: post.post, reply: post.reply?.parent.author?.handle, repost: post.reason?.repost,
                         path: $path
                     )
                     .padding([.top, .horizontal])
@@ -42,12 +43,11 @@ struct HomeView: View {
                         path.append(.thread(post.post.uri))
                     }
                     .task {
-                        if post == filteredfeed.last {
+                        if post === filteredfeed.last {
                             if let cursor = timeline.cursor {
                                 do {
-                                    let result = try await getTimeline(cursor: cursor)
-                                    timeline.feed.append(contentsOf: result.feed)
-                                    timeline.cursor = result.cursor
+                                    let result = try await appbskytypes.FeedGetTimeline(algorithm: "reverse-chronological", cursor: cursor, limit: 30)
+                                    timeline = .init(cursor: result.cursor, feed: timeline.feed + result.feed)
                                 } catch {
                                     print(error)
                                 }

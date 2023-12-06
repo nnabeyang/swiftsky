@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct EmbedExternalView: View {
-    @State var record: EmbedExternalViewExternal
+    @State var record: appbskytypes.EmbedExternal_ViewExternal
     @Environment(\.openURL) private var openURL
     var body: some View {
         Button {

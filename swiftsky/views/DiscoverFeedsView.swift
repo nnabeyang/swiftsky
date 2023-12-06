@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct FeedRowView: View {
-    let feed: FeedDefsGeneratorView
+    let feed: appbskytypes.FeedDefs_GeneratorView
     @EnvironmentObject private var preferences: PreferencesModel
     var isSaved: Bool {
         preferences.savedFeeds.contains(where: {
@@ -83,13 +83,13 @@ struct FeedRowView: View {
 }
 
 struct DiscoverFeedsView: View {
-    @State var feeds: [FeedDefsGeneratorView] = []
+    @State var feeds = [appbskytypes.FeedDefs_GeneratorView]()
     @State var isLoading = false
     @Binding var path: [Navigation]
     func loadContent() async {
         isLoading = true
         do {
-            let feeds = try await getPopularFeedGenerators()
+            let feeds = try await appbskytypes.UnspeccedGetPopularFeedGenerators(cursor: nil, limit: 50, query: nil)
             self.feeds = feeds.feeds
         } catch {
             print(error)

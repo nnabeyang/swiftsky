@@ -19,7 +19,7 @@ class CustomFeedModel: Identifiable, Equatable, Hashable {
         uri
     }
 
-    var data: FeedDefsGeneratorView
+    var data: appbskytypes.FeedDefs_GeneratorView
     var uri: String {
         data.uri
     }
@@ -32,7 +32,7 @@ class CustomFeedModel: Identifiable, Equatable, Hashable {
         data.displayName
     }
 
-    init(data: FeedDefsGeneratorView) {
+    init(data: appbskytypes.FeedDefs_GeneratorView) {
         self.data = data
     }
 }
@@ -49,7 +49,7 @@ class SavedFeedsModel {
             }
         }
         for i in stride(from: 0, to: neededFeedUris.count, by: 25) {
-            let res = try await FeedGetFeedGenerators(feeds: Array(neededFeedUris[i ..< min(i + 25, neededFeedUris.count)]))
+            let res = try await appbskytypes.FeedGetFeedGenerators(feeds: Array(neededFeedUris[i ..< min(i + 25, neededFeedUris.count)]))
             for feedInfo in res.feeds {
                 newFeedModels.setObject(CustomFeedModel(data: feedInfo), forKey: feedInfo.uri as NSString)
             }
@@ -72,18 +72,18 @@ class PreferencesModel: ObservableObject {
     static var shared = PreferencesModel()
     @Published var savedFeeds: [String] = []
     @Published var pinnedFeeds: [String] = []
-    func update(cb: @escaping ([ActorDefsPreferencesElem]) -> ([ActorDefsPreferencesElem]?)) async throws {
-        let res = try await ActorGetPreferences()
+    func update(cb: @escaping ([appbskytypes.ActorDefs_Preferences_Elem]) -> ([appbskytypes.ActorDefs_Preferences_Elem]?)) async throws {
+        let res = try await appbskytypes.ActorGetPreferences()
         if let newPrefs = cb(res.preferences) {
-            let _ = try await ActorPutPreferences(input: newPrefs)
+            let _ = try await appbskytypes.ActorPutPreferences(input: .init(preferences: newPrefs))
         }
     }
 
     func sync() async throws {
-        let res = try await ActorGetPreferences().preferences
+        let res = try await appbskytypes.ActorGetPreferences().preferences
         for pref in res {
             switch pref {
-            case let .savedfeeds(feeds):
+            case let .actorDefsSavedFeedsPref(feeds):
                 DispatchQueue.main.async {
                     self.savedFeeds = feeds.saved
                     self.pinnedFeeds = feeds.pinned
@@ -103,21 +103,20 @@ class PreferencesModel: ObservableObject {
         }
         do {
             try await update { prefs in
-                let feedsPref = prefs.first(where: { if case ActorDefsPreferencesElem.savedfeeds = $0 {
+                let feedsPref = prefs.first(where: { if case appbskytypes.ActorDefs_Preferences_Elem.actorDefsSavedFeedsPref = $0 {
                     return true
                 }
                 return false
                 })
                 var prefsfiltered = prefs.filter {
-                    if case ActorDefsPreferencesElem.savedfeeds = $0 {
+                    if case appbskytypes.ActorDefs_Preferences_Elem.actorDefsSavedFeedsPref = $0 {
                         return false
                     }
                     return true
                 }
-                if var feeds = feedsPref?.feeds {
-                    feeds.saved = saved
-                    feeds.pinned = pinned
-                    prefsfiltered.append(ActorDefsPreferencesElem.savedfeeds(feeds))
+                if case .actorDefsSavedFeedsPref = feedsPref {
+                    let feeds = appbskytypes.ActorDefs_SavedFeedsPref(pinned: pinned, saved: saved)
+                    prefsfiltered.append(.actorDefsSavedFeedsPref(feeds))
                 }
 
                 return prefsfiltered

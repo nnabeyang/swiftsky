@@ -14,12 +14,12 @@ struct LoginView: View {
         Task {
             isButtonDisabled = true
             do {
-                let result = try await ServerCreateSession(identifier: handle, password: password)
-                Client.shared.user.refreshJwt = result.refreshJwt
-                Client.shared.user.accessJwt = result.accessJwt
-                Client.shared.handle = result.handle
-                Client.shared.did = result.did
-                Client.shared.user.save()
+                let result = try await comatprototypes.ServerCreateSession(input: .init(identifier: handle, password: password))
+                XRPCClient.shared.auth.refreshJwt = result.refreshJwt
+                XRPCClient.shared.auth.accessJwt = result.accessJwt
+                XRPCClient.shared.auth.handle = result.handle
+                XRPCClient.shared.auth.did = result.did
+                XRPCClient.shared.auth.save()
                 DispatchQueue.main.async {
                     auth.needAuthorization = false
                 }

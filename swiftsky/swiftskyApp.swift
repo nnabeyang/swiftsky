@@ -3,6 +3,7 @@
 //  swiftsky
 //
 
+import SwiftAtproto
 import SwiftUI
 
 @main
@@ -12,7 +13,14 @@ struct swiftskyApp: App {
     @StateObject private var pushnotifications = PushNotificatios.shared
     @StateObject private var preferences = PreferencesModel.shared
     init() {
-        Client.shared.postInit()
+        if let auth = AuthInfo.load() {
+            XRPCClient.shared.postInit(auth: auth)
+            Auth.shared.needAuthorization = false
+        }
+        LexiconTypesMap.shared.register(id: "app.bsky.feed.post", val: appbskytypes.FeedPost.self)
+        LexiconTypesMap.shared.register(id: "app.bsky.feed.like", val: appbskytypes.FeedPost.self)
+        LexiconTypesMap.shared.register(id: "app.bsky.graph.follow", val: appbskytypes.GraphFollow.self)
+        LexiconTypesMap.shared.register(id: "app.bsky.graph.block", val: appbskytypes.GraphBlock.self)
         GlobalViewModel.shared.systemLanguageCode = Locale.preferredLanguageCodes[0]
         GlobalViewModel.shared.systemLanguage = Locale.current.localizedString(forLanguageCode: GlobalViewModel.shared.systemLanguageCode) ?? "en"
     }
@@ -42,7 +50,7 @@ struct swiftskyApp: App {
             if !$0 {
                 pushnotifications.resumeRefreshTask()
                 Task {
-                    globalviewmodel.profile = try? await actorgetProfile(actor: Client.shared.handle)
+                    globalviewmodel.profile = try? await appbskytypes.ActorGetProfile(actor: XRPCClient.shared.auth.handle)
                 }
             } else {
                 pushnotifications.cancelRefreshTask()

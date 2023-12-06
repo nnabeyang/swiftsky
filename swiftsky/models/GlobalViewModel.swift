@@ -9,6 +9,6 @@ class GlobalViewModel: ObservableObject {
     static let shared = GlobalViewModel()
     var systemLanguageCode = ""
     var systemLanguage = ""
-    @Published var profile: ActorDefsProfileViewDetailed? = nil
-    @Published var preview: URL? = nil
+    @Published var profile: appbskytypes.ActorDefs_ProfileViewDetailed?
+    @Published var preview: URL?
 }

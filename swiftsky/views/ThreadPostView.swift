@@ -7,7 +7,7 @@ import QuickLook
 import SwiftUI
 
 struct ThreadPostview: View {
-    @State var post: FeedDefsPostView
+    @State var post: appbskytypes.FeedDefs_PostView
     @State var reply: String?
     @State var usernamehover: Bool = false
     @State var displaynamehover: Bool = false
@@ -20,7 +20,13 @@ struct ThreadPostview: View {
     func delete() {
         Task {
             do {
-                let result = try await repoDeleteRecord(uri: post.uri, collection: "app.bsky.feed.post")
+                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.feed.post",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: post.uri).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                ))
                 if result {
                     await load()
                 }
@@ -31,8 +37,9 @@ struct ThreadPostview: View {
     }
 
     var markdown: String {
+        guard let record = post.record.val as? appbskytypes.FeedPost else { return "" }
         var markdown = String()
-        let rt = RichText(text: post.record.text, facets: post.record.facets)
+        let rt = RichText(text: record.text, facets: record.facets)
         for segment in rt.segments() {
             if let link = segment.link() {
                 markdown += "[\(segment.text)](\(link))"
@@ -97,7 +104,7 @@ struct ThreadPostview: View {
                                 MenuItem(title: "Report") {
                                     print("Report")
                                 })
-                            if post.author.did == Client.shared.did {
+                            if post.author.did == XRPCClient.shared.auth.did {
                                 items.append(
                                     MenuItem(title: "Delete") {
                                         deletepost = true
@@ -118,7 +125,7 @@ struct ThreadPostview: View {
                 }
             }
 
-            if !post.record.text.isEmpty {
+            if !((post.record.val as? appbskytypes.FeedPost)?.text ?? "").isEmpty {
                 Text(.init(markdown))
                     .foregroundColor(.primary)
                     .textSelection(.enabled)
@@ -128,7 +135,9 @@ struct ThreadPostview: View {
                 }
             }
             if let embed = post.embed {
-                if let images = embed.images {
+                switch embed {
+                case let .embedImagesView(embed):
+                    let images = embed.images
                     HStack {
                         ForEach(images) { image in
                             Button {
@@ -152,29 +161,40 @@ struct ThreadPostview: View {
                             .buttonStyle(.plain)
                         }
                     }
-                }
-                if let record: EmbedRecordViewRecord = embed.record {
-                    EmbedPostView(embedrecord: record, path: $path)
-                        .onTapGesture {
-                            path.append(.thread(record.uri))
-                        }
-                }
-                if let external = embed.external {
-                    EmbedExternalView(record: external)
+                case let .embedRecordView(embed):
+                    let record = embed.record
+                    switch record {
+                    case let .embedRecordViewRecord(viewRecord):
+                        EmbedPostView(embedrecord: record, path: $path)
+                            .onTapGesture {
+                                path.append(.thread(viewRecord.uri))
+                            }
+                    default:
+                        EmptyView()
+                    }
+                case let .embedExternalView(embed):
+                    EmbedExternalView(record: embed.external)
+                default:
+                    EmptyView()
                 }
             }
-            Text(
-                "\(Text(post.indexedAt, style: .time)) · \(Text(post.indexedAt, style: .date))"
-            )
-            .foregroundColor(.secondary)
-            .padding(.bottom, 6)
+            Text({
+                if let indexedAt = ISO8601DateFormatter(.withFractionalSeconds).date(from: post.indexedAt) {
+                    "\(Text(indexedAt, style: .time)) · \(Text(indexedAt, style: .date))"
+                } else {
+                    post.indexedAt
+                }
+            }() as String)
+                .foregroundColor(.secondary)
+                .padding(.bottom, 6)
         }
         .onAppear {
-            if translateviewmodel.text.isEmpty, !post.record.text.isEmpty {
-                if post.record.text.languageCode != GlobalViewModel.shared.systemLanguageCode {
+            guard let postRecord = post.record.val as? appbskytypes.FeedPost else { return }
+            if translateviewmodel.text.isEmpty, !postRecord.text.isEmpty {
+                if postRecord.text.languageCode != GlobalViewModel.shared.systemLanguageCode {
                     translateavailable = true
                 }
-                translateviewmodel.text = post.record.text
+                translateviewmodel.text = postRecord.text
             }
         }
         .alert("Failed to delete post, please try again.", isPresented: $deletepostfailed, actions: {})

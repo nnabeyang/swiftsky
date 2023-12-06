@@ -6,47 +6,45 @@
 import SwiftUI
 
 private struct NotificationsViewFollow: View {
-    @State var notification: NotificationListNotificationsNotification
+    @State var notification: appbskytypes.NotificationListNotifications_Notification
     @State var underline = false
     @Binding var path: [Navigation]
     var body: some View {
         Group {
-            if let author = notification.author {
-                HStack {
-                    Image(systemName: "person.crop.circle.badge.plus")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 25, height: 25)
-                        .padding(5)
-                        .clipped()
-                        .foregroundColor(.accentColor)
-                    AvatarView(url: author.avatar, size: 40)
-                    HStack(spacing: 3) {
-                        Button {
-                            path.append(.profile(author.did))
-                        } label: {
-                            Text("@\(author.handle)")
-                                .foregroundColor(.primary)
-                                .underline(underline)
-                                .hoverHand {
-                                    underline = $0
-                                }
-                                .tooltip {
-                                    ProfilePreview(did: author.did, path: $path)
-                                }
+            let author = notification.author
+            HStack {
+                Image(systemName: "person.crop.circle.badge.plus")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 25, height: 25)
+                    .padding(5)
+                    .clipped()
+                    .foregroundColor(.accentColor)
+                AvatarView(url: author.avatar, size: 40)
+                HStack(spacing: 3) {
+                    Button {
+                        path.append(.profile(author.did))
+                    } label: {
+                        Text("@\(author.handle)")
+                            .foregroundColor(.primary)
+                            .underline(underline)
+                            .hoverHand {
+                                underline = $0
+                            }
+                            .tooltip {
+                                ProfilePreview(did: author.did, path: $path)
+                            }
 
-                        }.buttonStyle(.plain)
-                        Text("followed you")
-                            .opacity(0.8)
+                    }.buttonStyle(.plain)
+                    Text("followed you")
+                        .opacity(0.8)
 
-                        Text(
-                            Formatter.relativeDateNamed.localizedString(
-                                fromTimeInterval: notification.indexedAt.timeIntervalSinceNow)
-                        )
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .help(notification.indexedAt.formatted(date: .complete, time: .standard))
-                    }
+                    Text(
+                        notification.indexedAt
+                    )
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .help(notification.indexedAt)
                 }
             }
         }
@@ -54,47 +52,45 @@ private struct NotificationsViewFollow: View {
 }
 
 private struct NotificationsViewRepost: View {
-    @State var notification: NotificationListNotificationsNotification
+    @State var notification: appbskytypes.NotificationListNotifications_Notification
     @State var underline = false
     @Binding var path: [Navigation]
     var body: some View {
         Group {
-            if let author = notification.author {
-                HStack {
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 25, height: 25)
-                        .padding(5)
-                        .clipped()
-                        .foregroundColor(.accentColor)
-                    AvatarView(url: author.avatar, size: 40)
-                    HStack(spacing: 3) {
-                        Button {
-                            path.append(.profile(author.did))
-                        } label: {
-                            Text("@\(author.handle)")
-                                .foregroundColor(.primary)
-                                .underline(underline)
-                                .hoverHand {
-                                    underline = $0
-                                }
-                                .tooltip {
-                                    ProfilePreview(did: author.did, path: $path)
-                                }
+            let author = notification.author
+            HStack {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 25, height: 25)
+                    .padding(5)
+                    .clipped()
+                    .foregroundColor(.accentColor)
+                AvatarView(url: author.avatar, size: 40)
+                HStack(spacing: 3) {
+                    Button {
+                        path.append(.profile(author.did))
+                    } label: {
+                        Text("@\(author.handle)")
+                            .foregroundColor(.primary)
+                            .underline(underline)
+                            .hoverHand {
+                                underline = $0
+                            }
+                            .tooltip {
+                                ProfilePreview(did: author.did, path: $path)
+                            }
 
-                        }.buttonStyle(.plain)
-                        Text("reposted your post")
-                            .opacity(0.8)
+                    }.buttonStyle(.plain)
+                    Text("reposted your post")
+                        .opacity(0.8)
 
-                        Text(
-                            Formatter.relativeDateNamed.localizedString(
-                                fromTimeInterval: notification.indexedAt.timeIntervalSinceNow)
-                        )
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .help(notification.indexedAt.formatted(date: .complete, time: .standard))
-                    }
+                    Text(
+                        notification.indexedAt
+                    )
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .help(notification.indexedAt)
                 }
             }
         }
@@ -102,47 +98,45 @@ private struct NotificationsViewRepost: View {
 }
 
 private struct NotificationsViewLike: View {
-    @State var notification: NotificationListNotificationsNotification
+    @State var notification: appbskytypes.NotificationListNotifications_Notification
     @State var underline = false
     @Binding var path: [Navigation]
     var body: some View {
         Group {
-            if let author = notification.author {
-                HStack {
-                    Image(systemName: "heart.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 25, height: 25)
-                        .padding(5)
-                        .clipped()
-                        .foregroundColor(.pink)
-                    AvatarView(url: author.avatar, size: 40)
-                    HStack(spacing: 3) {
-                        Button {
-                            path.append(.profile(author.did))
-                        } label: {
-                            Text("@\(author.handle)")
-                                .foregroundColor(.primary)
-                                .underline(underline)
-                                .hoverHand {
-                                    underline = $0
-                                }
-                                .tooltip {
-                                    ProfilePreview(did: author.did, path: $path)
-                                }
-                        }.buttonStyle(.plain)
+            let author = notification.author
+            HStack {
+                Image(systemName: "heart.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 25, height: 25)
+                    .padding(5)
+                    .clipped()
+                    .foregroundColor(.pink)
+                AvatarView(url: author.avatar, size: 40)
+                HStack(spacing: 3) {
+                    Button {
+                        path.append(.profile(author.did))
+                    } label: {
+                        Text("@\(author.handle)")
+                            .foregroundColor(.primary)
+                            .underline(underline)
+                            .hoverHand {
+                                underline = $0
+                            }
+                            .tooltip {
+                                ProfilePreview(did: author.did, path: $path)
+                            }
+                    }.buttonStyle(.plain)
 
-                        Text("liked your post")
-                            .opacity(0.8)
+                    Text("liked your post")
+                        .opacity(0.8)
 
-                        Text(
-                            Formatter.relativeDateNamed.localizedString(
-                                fromTimeInterval: notification.indexedAt.timeIntervalSinceNow)
-                        )
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                        .help(notification.indexedAt.formatted(date: .complete, time: .standard))
-                    }
+                    Text(
+                        notification.indexedAt
+                    )
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .help(notification.indexedAt)
                 }
             }
         }
@@ -150,14 +144,18 @@ private struct NotificationsViewLike: View {
 }
 
 struct NotificationsView: View {
-    @State var notifications: NotificationListNotificationsOutput?
+    @State var notifications: appbskytypes.NotificationListNotifications_Output?
+    @State private var postMap = [String: appbskytypes.FeedDefs_PostView]()
     @Binding var path: [Navigation]
     func getNotifications(cursor: String? = nil) async {
+        var postMap = [String: appbskytypes.FeedDefs_PostView]()
         do {
-            let notifications = try await NotificationListNotifications(cursor: cursor)
+            let notifications = try await appbskytypes.NotificationListNotifications(cursor: cursor, limit: 30, seenAt: nil)
             if cursor != nil {
-                self.notifications?.notifications.append(contentsOf: notifications.notifications)
-                self.notifications?.cursor = notifications.cursor
+                self.notifications = appbskytypes.NotificationListNotifications_Output(
+                    cursor: notifications.cursor,
+                    notifications: self.notifications!.notifications + notifications.notifications
+                )
             } else {
                 self.notifications = notifications
             }
@@ -167,15 +165,11 @@ struct NotificationsView: View {
                 }
                 return nil
             }
-            let posts = try await feedgetPosts(uris: uris)
+            let posts = try await appbskytypes.FeedGetPosts(uris: uris)
             for post in posts.posts {
-                if let notif = self.notifications?.notifications.firstIndex(where: {
-                    $0.uri == post.uri
-                }) {
-                    self.notifications?.notifications[notif].post = post
-                }
+                postMap[post.uri] = post
             }
-
+            self.postMap = postMap
         } catch {}
     }
 
@@ -201,8 +195,7 @@ struct NotificationsView: View {
                             default:
                                 EmptyView()
                             }
-
-                            if let post = notification.post {
+                            if let post: appbskytypes.FeedDefs_PostView = postMap[notification.uri] {
                                 PostView(post: post, path: $path)
                                     .padding(.horizontal)
                                     .padding(.top, notification.cid == notifications.notifications.first?.cid ? 5 : 0)

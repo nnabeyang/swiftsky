@@ -7,10 +7,10 @@ import QuickLook
 import SwiftUI
 
 struct PostView: View {
-    @State var post: FeedDefsPostView
+    @State var post: appbskytypes.FeedDefs_PostView
     @State var reply: String?
     @State var usernamehover: Bool = false
-    @State var repost: FeedDefsFeedViewPostReason? = nil
+    @State var repost: appbskytypes.FeedDefs_ReasonRepost?
     @State var deletepostfailed = false
     @State var deletepost = false
     @State var underlinereply = false
@@ -20,7 +20,13 @@ struct PostView: View {
     func delete() {
         Task {
             do {
-                let result = try await repoDeleteRecord(uri: post.uri, collection: "app.bsky.feed.post")
+                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.feed.post",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: post.uri).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                ))
                 if result {}
             } catch {
                 deletepostfailed = true
@@ -30,7 +36,8 @@ struct PostView: View {
 
     var markdown: String {
         var markdown = String()
-        let rt = RichText(text: post.record.text, facets: post.record.facets)
+        guard let record = post.record.val as? appbskytypes.FeedPost else { return "" }
+        let rt = RichText(text: record.text, facets: record.facets)
         for segment in rt.segments() {
             if let link = segment.link() {
                 markdown += "[\(segment.text)](\(link))"
@@ -70,11 +77,11 @@ struct PostView: View {
                     }
                     Text(
                         Formatter.relativeDateNamed.localizedString(
-                            fromTimeInterval: post.indexedAt.timeIntervalSinceNow)
+                            fromTimeInterval: ISO8601DateFormatter(.withFractionalSeconds).date(from: post.indexedAt)?.timeIntervalSinceNow ?? 0)
                     )
                     .font(.body)
                     .foregroundColor(.secondary)
-                    .help(post.indexedAt.formatted(date: .complete, time: .standard))
+                    .help(ISO8601DateFormatter(.withFractionalSeconds).date(from: post.indexedAt)?.formatted(date: .complete, time: .standard) ?? "")
 
                     Spacer()
                     Group {
@@ -88,7 +95,7 @@ struct PostView: View {
                                 MenuItem(title: "Report") {
                                     print("Report")
                                 })
-                            if post.author.did == Client.shared.did {
+                            if post.author.did == XRPCClient.shared.auth.did {
                                 items.append(
                                     MenuItem(title: "Delete") {
                                         deletepost = true
@@ -120,16 +127,24 @@ struct PostView: View {
                         .buttonStyle(.plain)
                     }
                 }
-                if !post.record.text.isEmpty {
+                if !((post.record.val as? appbskytypes.FeedPost)?.text ?? "").isEmpty {
+                    let padding: CGFloat = switch post.embed {
+                    case .embedImagesView:
+                        0
+                    default:
+                        translateavailable ? 0 : 6
+                    }
                     Text(.init(markdown))
                         .textSelection(.enabled)
-                        .padding(.bottom, post.embed?.images == nil ? translateavailable ? 0 : 6 : 0)
+                        .padding(.bottom, padding)
                     if translateavailable {
                         TranslateView(viewmodel: translateviewmodel)
                     }
                 }
                 if let embed = post.embed {
-                    if let images = embed.images {
+                    switch embed {
+                    case let .embedImagesView(embed):
+                        let images = embed.images
                         HStack {
                             ForEach(images) { image in
                                 Button {
@@ -153,25 +168,31 @@ struct PostView: View {
                                 .buttonStyle(.plain)
                             }
                         }
-                    }
-                    if let record: EmbedRecordViewRecord = embed.record {
-                        EmbedPostView(embedrecord: record, path: $path)
+                    case let .embedRecordView(embed):
+                        EmbedPostView(embedrecord: embed.record, path: $path)
                             .onTapGesture {
-                                path.append(.thread(record.uri))
+                                switch embed.record {
+                                case let .embedRecordViewRecord(record):
+                                    path.append(.thread(record.uri))
+                                default:
+                                    break
+                                }
                             }
-                    }
-                    if let external = embed.external {
-                        EmbedExternalView(record: external)
+                    case let .embedExternalView(embed):
+                        EmbedExternalView(record: embed.external)
+                    case .embedRecordWithMediaView:
+                        Spacer()
                     }
                 }
             }
         }
         .onAppear {
-            if translateviewmodel.text.isEmpty, !post.record.text.isEmpty {
-                if post.record.text.languageCode != GlobalViewModel.shared.systemLanguageCode {
+            guard let feedPost = post.record.val as? appbskytypes.FeedPost else { return }
+            if translateviewmodel.text.isEmpty, !feedPost.text.isEmpty {
+                if feedPost.text.languageCode != GlobalViewModel.shared.systemLanguageCode {
                     translateavailable = true
                 }
-                translateviewmodel.text = post.record.text
+                translateviewmodel.text = feedPost.text
             }
         }
         .alert("Failed to delete post, please try again.", isPresented: $deletepostfailed, actions: {})

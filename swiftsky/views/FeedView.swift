@@ -8,8 +8,8 @@ import SwiftUI
 struct FeedView: View {
     var model: CustomFeedModel
     let header: Bool
-    @State var feedview: FeedDefsGeneratorView? = nil
-    @State var feed: [FeedDefsFeedViewPost] = []
+    @State var feedview: appbskytypes.FeedDefs_GeneratorView? = nil
+    @State var feed = [appbskytypes.FeedDefs_FeedViewPost]()
     @State var cursor: String? = nil
     @State var isLoading = false
     @State var isLikeDisabled = false
@@ -19,9 +19,9 @@ struct FeedView: View {
         isLoading = true
         do {
             if header {
-                feedview = try await FeedGetFeedGenerator(feed: model.uri).view
+                feedview = try await appbskytypes.FeedGetFeedGenerator(feed: model.uri).view
             }
-            let feed = try await FeedGetFeed(feed: model.uri, cursor: cursor)
+            let feed = try await appbskytypes.FeedGetFeed(cursor: cursor, feed: model.uri, limit: nil)
             cursor = feed.cursor
             if self.feed.isEmpty {
                 self.feed = feed.feed
@@ -61,7 +61,13 @@ struct FeedView: View {
         let like = feedview!.viewer!.like
         Task {
             do {
-                if try await repoDeleteRecord(uri: like!, collection: "app.bsky.feed.like") {
+                if try await comatprototypes.RepoDeleteRecord(input: .init(
+                    collection: "app.bsky.feed.like",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: like!).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                )) {
                     feedview!.viewer!.like = nil
                     feedview!.likeCount! -= 1
                 }
@@ -153,7 +159,7 @@ struct FeedView: View {
                 feedheader
                 ForEach(feed) { post in
                     PostView(
-                        post: post.post, reply: post.reply?.parent.author.handle, repost: post.reason,
+                        post: post.post, reply: post.reply?.parent.author?.handle, repost: post.reason?.repost,
                         path: $path
                     )
                     .padding([.top, .horizontal])
@@ -162,7 +168,7 @@ struct FeedView: View {
                         path.append(.thread(post.post.uri))
                     }
                     .task {
-                        if post == feed.last, !isLoading, cursor != nil {
+                        if post.id == feed.last?.id, !isLoading, cursor != nil {
                             await loadContent()
                         }
                     }

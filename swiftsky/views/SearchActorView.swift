@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct SearchActorSubView: View {
-    var actor: ActorDefsProfileViewBasic
+    var actor: appbskytypes.ActorDefs_ProfileViewBasic
     var body: some View {
         HStack(alignment: .top) {
             AvatarView(url: actor.avatar, size: 40)
@@ -23,9 +23,9 @@ struct SearchActorSubView: View {
 }
 
 struct SearchActorView: View {
-    @Binding var actorstypeahead: ActorSearchActorsTypeaheadOutput
+    @Binding var actorstypeahead: appbskytypes.ActorSearchActorsTypeahead_Output
     @State private var scrollViewContentSize: CGSize = .zero
-    var callback: ((ActorDefsProfileViewBasic) -> Void)?
+    var callback: ((appbskytypes.ActorDefs_ProfileViewBasic) -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {

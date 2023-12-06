@@ -10,20 +10,20 @@ struct SidebarView: View {
     @EnvironmentObject private var globalviewmodel: GlobalViewModel
     @EnvironmentObject private var pushnotifications: PushNotificatios
     @EnvironmentObject private var preferences: PreferencesModel
-    @State private var selection: Navigation.Sidebar? = nil
+    @State private var selection: Navigation.Sidebar?
     @State private var path: [Navigation] = []
     @State var compose: Bool = false
     @State var replypost: Bool = false
-    @State private var post: FeedDefsPostView? = nil
-    @State var searchactors = ActorSearchActorsTypeaheadOutput()
+    @State private var post: appbskytypes.FeedDefs_PostView?
+    @State var searchactors = appbskytypes.ActorSearchActorsTypeahead_Output(actors: [])
     @State var searchpresented = false
     @State var preferencesLoading = false
-    @State var preferencesLoadingError: String? = nil
+    @State var preferencesLoadingError: String?
     func load() async {
         preferencesLoadingError = nil
         if !auth.needAuthorization {
             Task {
-                globalviewmodel.profile = try? await actorgetProfile(actor: Client.shared.handle)
+                globalviewmodel.profile = try? await appbskytypes.ActorGetProfile(actor: XRPCClient.shared.auth.handle)
             }
             preferencesLoading = true
             do {
@@ -188,11 +188,11 @@ struct SidebarView: View {
                         SearchField { search in
                             if !search.isEmpty {
                                 do {
-                                    searchactors = try await ActorSearchActorsTypeahead(term: search)
+                                    searchactors = try await appbskytypes.ActorSearchActorsTypeahead(limit: 10, q: search, term: "")
                                     searchpresented = !searchactors.actors.isEmpty
                                 } catch {}
                             } else {
-                                searchactors = .init()
+                                searchactors = .init(actors: [])
                                 searchpresented = false
                             }
                         }
