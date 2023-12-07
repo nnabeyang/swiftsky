@@ -427,7 +427,6 @@
 			isa = PBXGroup;
 			children = (
 				36E1EB3629DC328F00469CFE /* Info.plist */,
-				36AEF5CF29C493E700B68B24 /* external */,
 				3629C9EB29F2AED500352001 /* models */,
 				36AEF5BC29C4925200B68B24 /* views */,
 				36AEF5A129C4904D00B68B24 /* api */,
@@ -497,13 +496,6 @@
 				3691F5702A3A3415003E47B0 /* DiscoverFeedsView.swift */,
 			);
 			path = views;
-			sourceTree = "<group>";
-		};
-		36AEF5CF29C493E700B68B24 /* external */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = external;
 			sourceTree = "<group>";
 		};
 		F938C31C2AF7605B0069A0B1 /* appbsky */ = {
