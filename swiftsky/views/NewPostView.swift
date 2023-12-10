@@ -27,7 +27,7 @@ struct NewPostView: View {
             do {
                 var images = [appbskytypes.EmbedImages_Image]()
                 for image in self.images {
-                    let result = try await comatprototypes.RepoUploadBlob(input: image.data)
+                    let result = try await comatprototypes.RepoUploadBlob(client: XRPCClient.shared, input: image.data)
                     images.append(.init(alt: "", aspectRatio: nil, image: result.blob))
                 }
                 let embed: appbskytypes.FeedPost_Embed?

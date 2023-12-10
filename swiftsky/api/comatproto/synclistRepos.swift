@@ -45,8 +45,8 @@ extension comatprototypes {
         }
     }
 
-    static func SyncListRepos(cursor: String?, limit: Int?) async throws -> SyncListRepos_Output {
+    static func SyncListRepos(client: any XRPCClientProtocol, cursor: String?, limit: Int?) async throws -> SyncListRepos_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.sync.listRepos", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.sync.listRepos", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

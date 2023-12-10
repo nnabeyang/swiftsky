@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func RepoUploadBlob(input: Data) async throws -> RepoUploadBlob_Output {
+    static func RepoUploadBlob(client: any XRPCClientProtocol, input: Data) async throws -> RepoUploadBlob_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.repo.uploadBlob", contentType: "*/*", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.repo.uploadBlob", contentType: "*/*", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

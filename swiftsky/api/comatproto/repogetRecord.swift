@@ -28,8 +28,8 @@ extension comatprototypes {
         }
     }
 
-    static func RepoGetRecord(cid: String?, collection: String, repo: String, rkey: String) async throws -> RepoGetRecord_Output {
+    static func RepoGetRecord(client: any XRPCClientProtocol, cid: String?, collection: String, repo: String, rkey: String) async throws -> RepoGetRecord_Output {
         let params: Parameters = ["cid": .string(cid), "collection": .string(collection), "repo": .string(repo), "rkey": .string(rkey)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.repo.getRecord", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.repo.getRecord", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

@@ -18,7 +18,7 @@ struct ProfilePreview: View {
     func load() async {
         loading = true
         do {
-            profile = try await appbskytypes.ActorGetProfile(actor: did)
+            profile = try await appbskytypes.ActorGetProfile(client: XRPCClient.shared, actor: did)
         } catch {
             self.error = error.localizedDescription
         }
@@ -41,13 +41,16 @@ struct ProfilePreview: View {
     private func unfollow() {
         disablefollowbutton = true
         Task {
-            let result = try await comatprototypes.RepoDeleteRecord(input: .init(
-                collection: "app.bsky.graph.follow",
-                repo: XRPCClient.shared.auth.did,
-                rkey: AtUri(uri: profile!.viewer!.following!).rkey,
-                swapCommit: nil,
-                swapRecord: nil
-            ))
+            let result = try await comatprototypes.RepoDeleteRecord(
+                client: XRPCClient.shared,
+                input: .init(
+                    collection: "app.bsky.graph.follow",
+                    repo: XRPCClient.shared.auth.did,
+                    rkey: AtUri(uri: profile!.viewer!.following!).rkey,
+                    swapCommit: nil,
+                    swapRecord: nil
+                )
+            )
             if result == true {
                 profile!.viewer!.following = nil
                 profile!.followersCount? -= 1

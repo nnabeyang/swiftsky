@@ -54,8 +54,8 @@ extension comatprototypes {
         }
     }
 
-    static func RepoCreateRecord(input: RepoCreateRecord_Input) async throws -> RepoCreateRecord_Output {
+    static func RepoCreateRecord(client: any XRPCClientProtocol, input: RepoCreateRecord_Input) async throws -> RepoCreateRecord_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.repo.createRecord", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.repo.createRecord", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

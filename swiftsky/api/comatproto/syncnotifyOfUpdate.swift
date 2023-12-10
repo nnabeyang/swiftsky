@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func SyncNotifyOfUpdate(input: SyncNotifyOfUpdate_Input) async throws -> Bool {
+    static func SyncNotifyOfUpdate(client: any XRPCClientProtocol, input: SyncNotifyOfUpdate_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.sync.notifyOfUpdate", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.sync.notifyOfUpdate", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

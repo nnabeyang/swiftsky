@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerRequestEmailUpdate() async throws -> ServerRequestEmailUpdate_Output {
+    static func ServerRequestEmailUpdate(client: any XRPCClientProtocol) async throws -> ServerRequestEmailUpdate_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.requestEmailUpdate", contentType: "*/*", httpMethod: .post, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.server.requestEmailUpdate", contentType: "*/*", httpMethod: .post, params: params, input: Bool?.none, retry: true)
     }
 }

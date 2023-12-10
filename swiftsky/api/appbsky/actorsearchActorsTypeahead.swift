@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func ActorSearchActorsTypeahead(limit: Int?, q: String?, term: String?) async throws -> ActorSearchActorsTypeahead_Output {
+    static func ActorSearchActorsTypeahead(client: any XRPCClientProtocol, limit: Int?, q: String?, term: String?) async throws -> ActorSearchActorsTypeahead_Output {
         let params: Parameters = ["limit": .integer(limit), "q": .string(q), "term": .string(term)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.actor.searchActorsTypeahead", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.actor.searchActorsTypeahead", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

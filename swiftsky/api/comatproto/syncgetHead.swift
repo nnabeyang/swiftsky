@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func SyncGetHead(did: String) async throws -> SyncGetHead_Output {
+    static func SyncGetHead(client: any XRPCClientProtocol, did: String) async throws -> SyncGetHead_Output {
         let params: Parameters = ["did": .string(did)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.sync.getHead", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.sync.getHead", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

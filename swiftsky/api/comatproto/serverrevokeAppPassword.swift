@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerRevokeAppPassword(input: ServerRevokeAppPassword_Input) async throws -> Bool {
+    static func ServerRevokeAppPassword(client: any XRPCClientProtocol, input: ServerRevokeAppPassword_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.revokeAppPassword", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.revokeAppPassword", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

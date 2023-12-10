@@ -36,8 +36,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerReserveSigningKey(input: ServerReserveSigningKey_Input) async throws -> ServerReserveSigningKey_Output {
+    static func ServerReserveSigningKey(client: any XRPCClientProtocol, input: ServerReserveSigningKey_Input) async throws -> ServerReserveSigningKey_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.reserveSigningKey", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.reserveSigningKey", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

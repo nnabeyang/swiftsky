@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func SyncGetLatestCommit(did: String) async throws -> SyncGetLatestCommit_Output {
+    static func SyncGetLatestCommit(client: any XRPCClientProtocol, did: String) async throws -> SyncGetLatestCommit_Output {
         let params: Parameters = ["did": .string(did)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.sync.getLatestCommit", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.sync.getLatestCommit", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

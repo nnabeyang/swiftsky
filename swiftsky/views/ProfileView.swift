@@ -48,13 +48,13 @@ struct ProfileView: View {
     let tablist: [String] = ["Posts", "Posts & Replies", "Likes"]
     private func getProfile() async {
         do {
-            profile = try await appbskytypes.ActorGetProfile(actor: did)
+            profile = try await appbskytypes.ActorGetProfile(client: XRPCClient.shared, actor: did)
         } catch {}
     }
 
     private func getFeed(cursor: String? = nil) async {
         do {
-            let authorfeed = try await appbskytypes.FeedGetAuthorFeed(actor: did, cursor: cursor, filter: "posts_with_replies", limit: 50)
+            let authorfeed = try await appbskytypes.FeedGetAuthorFeed(client: XRPCClient.shared, actor: did, cursor: cursor, filter: "posts_with_replies", limit: 50)
             if cursor == nil {
                 self.authorfeed = authorfeed
                 return
@@ -69,6 +69,7 @@ struct ProfileView: View {
     private func getLikes(cursor: String? = nil) async {
         do {
             let records = try await comatprototypes.RepoListRecords(
+                client: XRPCClient.shared,
                 collection: "app.bsky.feed.like",
                 cursor: cursor,
                 limit: 25,
@@ -84,7 +85,7 @@ struct ProfileView: View {
             if uris.isEmpty {
                 return
             }
-            let posts = try await appbskytypes.FeedGetPosts(uris: uris)
+            let posts = try await appbskytypes.FeedGetPosts(client: XRPCClient.shared, uris: uris)
                 .posts.map {
                     appbskytypes.FeedDefs_FeedViewPost(post: $0, reason: nil, reply: nil)
                 }
@@ -103,13 +104,16 @@ struct ProfileView: View {
         disablefollowbutton = true
         Task {
             do {
-                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
-                    collection: "app.bsky.graph.follow",
-                    repo: XRPCClient.shared.auth.did,
-                    rkey: AtUri(uri: profile!.viewer!.following!).rkey,
-                    swapCommit: nil,
-                    swapRecord: nil
-                ))
+                let result = try await comatprototypes.RepoDeleteRecord(
+                    client: XRPCClient.shared,
+                    input: .init(
+                        collection: "app.bsky.graph.follow",
+                        repo: XRPCClient.shared.auth.did,
+                        rkey: AtUri(uri: profile!.viewer!.following!).rkey,
+                        swapCommit: nil,
+                        swapRecord: nil
+                    )
+                )
                 if result {
                     profile!.viewer!.following = nil
                 }
@@ -124,13 +128,16 @@ struct ProfileView: View {
         disableblockbutton = true
         Task {
             do {
-                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
-                    collection: "app.bsky.graph.block",
-                    repo: XRPCClient.shared.auth.did,
-                    rkey: AtUri(uri: profile!.viewer!.blocking!).rkey,
-                    swapCommit: nil,
-                    swapRecord: nil
-                ))
+                let result = try await comatprototypes.RepoDeleteRecord(
+                    client: XRPCClient.shared,
+                    input: .init(
+                        collection: "app.bsky.graph.block",
+                        repo: XRPCClient.shared.auth.did,
+                        rkey: AtUri(uri: profile!.viewer!.blocking!).rkey,
+                        swapCommit: nil,
+                        swapRecord: nil
+                    )
+                )
                 if result {
                     await load()
                 }

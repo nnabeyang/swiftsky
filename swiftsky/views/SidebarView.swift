@@ -23,7 +23,7 @@ struct SidebarView: View {
         preferencesLoadingError = nil
         if !auth.needAuthorization {
             Task {
-                globalviewmodel.profile = try? await appbskytypes.ActorGetProfile(actor: XRPCClient.shared.auth.handle)
+                globalviewmodel.profile = try? await appbskytypes.ActorGetProfile(client: XRPCClient.shared, actor: XRPCClient.shared.auth.handle)
             }
             preferencesLoading = true
             do {
@@ -188,7 +188,7 @@ struct SidebarView: View {
                         SearchField { search in
                             if !search.isEmpty {
                                 do {
-                                    searchactors = try await appbskytypes.ActorSearchActorsTypeahead(limit: 10, q: search, term: "")
+                                    searchactors = try await appbskytypes.ActorSearchActorsTypeahead(client: XRPCClient.shared, limit: 10, q: search, term: "")
                                     searchpresented = !searchactors.actors.isEmpty
                                 } catch {}
                             } else {

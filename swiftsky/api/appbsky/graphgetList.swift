@@ -28,8 +28,8 @@ extension appbskytypes {
         }
     }
 
-    static func GraphGetList(cursor: String?, limit: Int?, list: String) async throws -> GraphGetList_Output {
+    static func GraphGetList(client: any XRPCClientProtocol, cursor: String?, limit: Int?, list: String) async throws -> GraphGetList_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit), "list": .string(list)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.graph.getList", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.graph.getList", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

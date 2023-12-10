@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerGetAccountInviteCodes(createAvailable: Bool?, includeUsed: Bool?) async throws -> ServerGetAccountInviteCodes_Output {
+    static func ServerGetAccountInviteCodes(client: any XRPCClientProtocol, createAvailable: Bool?, includeUsed: Bool?) async throws -> ServerGetAccountInviteCodes_Output {
         let params: Parameters = ["createAvailable": .bool(createAvailable), "includeUsed": .bool(includeUsed)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.getAccountInviteCodes", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.server.getAccountInviteCodes", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

@@ -16,7 +16,7 @@ class PushNotificatios: ObservableObject {
                 if Auth.shared.needAuthorization {
                     break
                 }
-                if let notifications = try? await appbskytypes.NotificationListNotifications(cursor: nil, limit: 30, seenAt: nil).notifications {
+                if let notifications = try? await appbskytypes.NotificationListNotifications(client: XRPCClient.shared, cursor: nil, limit: 30, seenAt: nil).notifications {
                     let unreadnotifications = notifications.filter {
                         !$0.isRead
                     }
@@ -43,7 +43,7 @@ class PushNotificatios: ObservableObject {
     public func markasRead() {
         setunreadCount(0)
         Task {
-            try? await appbskytypes.NotificationUpdateSeen(input: .init(seenAt: Date().iso8601withFractionalSeconds))
+            try? await appbskytypes.NotificationUpdateSeen(client: XRPCClient.shared, input: .init(seenAt: Date().iso8601withFractionalSeconds))
         }
     }
 

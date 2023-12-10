@@ -19,9 +19,9 @@ struct FeedView: View {
         isLoading = true
         do {
             if header {
-                feedview = try await appbskytypes.FeedGetFeedGenerator(feed: model.uri).view
+                feedview = try await appbskytypes.FeedGetFeedGenerator(client: XRPCClient.shared, feed: model.uri).view
             }
-            let feed = try await appbskytypes.FeedGetFeed(cursor: cursor, feed: model.uri, limit: nil)
+            let feed = try await appbskytypes.FeedGetFeed(client: XRPCClient.shared, cursor: cursor, feed: model.uri, limit: nil)
             cursor = feed.cursor
             if self.feed.isEmpty {
                 self.feed = feed.feed
@@ -61,13 +61,15 @@ struct FeedView: View {
         let like = feedview!.viewer!.like
         Task {
             do {
-                if try await comatprototypes.RepoDeleteRecord(input: .init(
-                    collection: "app.bsky.feed.like",
-                    repo: XRPCClient.shared.auth.did,
-                    rkey: AtUri(uri: like!).rkey,
-                    swapCommit: nil,
-                    swapRecord: nil
-                )) {
+                if try await comatprototypes.RepoDeleteRecord(client: XRPCClient.shared,
+                                                              input: .init(
+                                                                  collection: "app.bsky.feed.like",
+                                                                  repo: XRPCClient.shared.auth.did,
+                                                                  rkey: AtUri(uri: like!).rkey,
+                                                                  swapCommit: nil,
+                                                                  swapRecord: nil
+                                                              ))
+                {
                     feedview!.viewer!.like = nil
                     feedview!.likeCount! -= 1
                 }

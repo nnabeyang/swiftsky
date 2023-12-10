@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func LabelQueryLabels(cursor: String?, limit: Int?, sources: [String]?, uriPatterns: [String]) async throws -> LabelQueryLabels_Output {
+    static func LabelQueryLabels(client: any XRPCClientProtocol, cursor: String?, limit: Int?, sources: [String]?, uriPatterns: [String]) async throws -> LabelQueryLabels_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit), "sources": .array(sources), "uriPatterns": .array(uriPatterns)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.label.queryLabels", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.label.queryLabels", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func TempFetchLabels(limit: Int?, since: Int?) async throws -> TempFetchLabels_Output {
+    static func TempFetchLabels(client: any XRPCClientProtocol, limit: Int?, since: Int?) async throws -> TempFetchLabels_Output {
         let params: Parameters = ["limit": .integer(limit), "since": .integer(since)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.temp.fetchLabels", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.temp.fetchLabels", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

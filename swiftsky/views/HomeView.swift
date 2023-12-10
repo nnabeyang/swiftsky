@@ -12,7 +12,7 @@ struct HomeView: View {
     func loadContent() async {
         loading = true
         do {
-            timeline = try await appbskytypes.FeedGetTimeline(algorithm: "reverse-chronological", cursor: nil, limit: 30)
+            timeline = try await appbskytypes.FeedGetTimeline(client: XRPCClient.shared, algorithm: "reverse-chronological", cursor: nil, limit: 30)
         } catch {
             print(error)
         }
@@ -46,7 +46,7 @@ struct HomeView: View {
                         if post === filteredfeed.last {
                             if let cursor = timeline.cursor {
                                 do {
-                                    let result = try await appbskytypes.FeedGetTimeline(algorithm: "reverse-chronological", cursor: cursor, limit: 30)
+                                    let result = try await appbskytypes.FeedGetTimeline(client: XRPCClient.shared, algorithm: "reverse-chronological", cursor: cursor, limit: 30)
                                     timeline = .init(cursor: result.cursor, feed: timeline.feed + result.feed)
                                 } catch {
                                     print(error)

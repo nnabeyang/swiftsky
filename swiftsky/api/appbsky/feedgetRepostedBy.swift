@@ -31,8 +31,8 @@ extension appbskytypes {
         }
     }
 
-    static func FeedGetRepostedBy(cid: String?, cursor: String?, limit: Int?, uri: String) async throws -> FeedGetRepostedBy_Output {
+    static func FeedGetRepostedBy(client: any XRPCClientProtocol, cid: String?, cursor: String?, limit: Int?, uri: String) async throws -> FeedGetRepostedBy_Output {
         let params: Parameters = ["cid": .string(cid), "cursor": .string(cursor), "limit": .integer(limit), "uri": .string(uri)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.feed.getRepostedBy", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.feed.getRepostedBy", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

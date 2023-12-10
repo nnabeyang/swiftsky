@@ -8,8 +8,8 @@ import SwiftAtproto
 import Foundation
 
 extension comatprototypes {
-    static func ServerRequestEmailConfirmation() async throws -> Bool {
+    static func ServerRequestEmailConfirmation(client: any XRPCClientProtocol) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.requestEmailConfirmation", contentType: "*/*", httpMethod: .post, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.server.requestEmailConfirmation", contentType: "*/*", httpMethod: .post, params: params, input: Bool?.none, retry: true)
     }
 }

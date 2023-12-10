@@ -17,7 +17,7 @@ struct ThreadView: View {
         threadviewpost = nil
         parents = []
         do {
-            let result = try await appbskytypes.FeedGetPostThread(depth: 6, parentHeight: 80, uri: uri)
+            let result = try await appbskytypes.FeedGetPostThread(client: XRPCClient.shared, depth: 6, parentHeight: 80, uri: uri)
             if case let .feedDefsThreadViewPost(thread) = result.thread {
                 threadviewpost = thread
                 var currentparent = thread.parent

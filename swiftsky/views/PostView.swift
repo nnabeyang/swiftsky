@@ -20,7 +20,7 @@ struct PostView: View {
     func delete() {
         Task {
             do {
-                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
+                let result = try await comatprototypes.RepoDeleteRecord(client: XRPCClient.shared, input: .init(
                     collection: "app.bsky.feed.post",
                     repo: XRPCClient.shared.auth.did,
                     rkey: AtUri(uri: post.uri).rkey,

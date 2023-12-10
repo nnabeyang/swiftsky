@@ -40,7 +40,7 @@ struct PostLikesView: View {
         Task {
             loading = true
             do {
-                let likes = try await appbskytypes.FeedGetLikes(cid: post.cid, cursor: likes.cursor, limit: 30, uri: post.uri)
+                let likes = try await appbskytypes.FeedGetLikes(client: XRPCClient.shared, cid: post.cid, cursor: likes.cursor, limit: 30, uri: post.uri)
                 likes.likes.insert(contentsOf: self.likes.likes, at: 0)
                 self.likes = likes
                 if !self.likes.likes.isEmpty {
@@ -146,7 +146,7 @@ struct PostFooterView: View {
         guard let like = viewer.like else { return }
         Task {
             do {
-                if try await comatprototypes.RepoDeleteRecord(input: .init(
+                if try await comatprototypes.RepoDeleteRecord(client: XRPCClient.shared, input: .init(
                     collection: "app.bsky.feed.like",
                     repo: XRPCClient.shared.auth.did,
                     rkey: AtUri(uri: like).rkey,
@@ -184,7 +184,7 @@ struct PostFooterView: View {
         post.repostCount? -= 1
         Task {
             do {
-                if try await comatprototypes.RepoDeleteRecord(input: .init(
+                if try await comatprototypes.RepoDeleteRecord(client: XRPCClient.shared, input: .init(
                     collection: "app.bsky.feed.repost",
                     repo: XRPCClient.shared.auth.did,
                     rkey: AtUri(uri: repost).rkey,

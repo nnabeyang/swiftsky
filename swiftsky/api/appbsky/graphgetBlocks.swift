@@ -25,8 +25,8 @@ extension appbskytypes {
         }
     }
 
-    static func GraphGetBlocks(cursor: String?, limit: Int?) async throws -> GraphGetBlocks_Output {
+    static func GraphGetBlocks(client: any XRPCClientProtocol, cursor: String?, limit: Int?) async throws -> GraphGetBlocks_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.graph.getBlocks", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.graph.getBlocks", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

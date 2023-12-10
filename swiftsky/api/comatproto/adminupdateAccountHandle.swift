@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminUpdateAccountHandle(input: AdminUpdateAccountHandle_Input) async throws -> Bool {
+    static func AdminUpdateAccountHandle(client: any XRPCClientProtocol, input: AdminUpdateAccountHandle_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.updateAccountHandle", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.admin.updateAccountHandle", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

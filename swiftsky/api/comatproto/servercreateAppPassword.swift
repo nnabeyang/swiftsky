@@ -42,8 +42,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerCreateAppPassword(input: ServerCreateAppPassword_Input) async throws -> ServerCreateAppPassword_AppPassword {
+    static func ServerCreateAppPassword(client: any XRPCClientProtocol, input: ServerCreateAppPassword_Input) async throws -> ServerCreateAppPassword_AppPassword {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.createAppPassword", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.createAppPassword", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

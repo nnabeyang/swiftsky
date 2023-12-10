@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func IdentityResolveHandle(handle: String) async throws -> IdentityResolveHandle_Output {
+    static func IdentityResolveHandle(client: any XRPCClientProtocol, handle: String) async throws -> IdentityResolveHandle_Output {
         let params: Parameters = ["handle": .string(handle)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.identity.resolveHandle", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.identity.resolveHandle", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

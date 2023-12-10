@@ -14,7 +14,8 @@ struct LoginView: View {
         Task {
             isButtonDisabled = true
             do {
-                let result = try await comatprototypes.ServerCreateSession(input: .init(identifier: handle, password: password))
+                let result = try await comatprototypes.ServerCreateSession(client: XRPCClient.shared,
+                                                                           input: .init(identifier: handle, password: password))
                 XRPCClient.shared.auth.refreshJwt = result.refreshJwt
                 XRPCClient.shared.auth.accessJwt = result.accessJwt
                 XRPCClient.shared.auth.handle = result.handle

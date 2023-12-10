@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func NotificationGetUnreadCount(seenAt: String?) async throws -> NotificationGetUnreadCount_Output {
+    static func NotificationGetUnreadCount(client: any XRPCClientProtocol, seenAt: String?) async throws -> NotificationGetUnreadCount_Output {
         let params: Parameters = ["seenAt": .string(seenAt)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.notification.getUnreadCount", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.notification.getUnreadCount", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

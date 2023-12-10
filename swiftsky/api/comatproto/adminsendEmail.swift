@@ -45,8 +45,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminSendEmail(input: AdminSendEmail_Input) async throws -> AdminSendEmail_Output {
+    static func AdminSendEmail(client: any XRPCClientProtocol, input: AdminSendEmail_Input) async throws -> AdminSendEmail_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.sendEmail", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.admin.sendEmail", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

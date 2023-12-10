@@ -49,6 +49,8 @@
 		36EA506929D02B5200FFE7DE /* FollowsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36EA506829D02B5200FFE7DE /* FollowsView.swift */; };
 		36F4423F2A07DEE2009D2F0C /* ToolTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F4423E2A07DEE2009D2F0C /* ToolTipView.swift */; };
 		36F442412A07E3C7009D2F0C /* ProfilePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F442402A07E3C7009D2F0C /* ProfilePreview.swift */; };
+		F90B2DA22B2584FA00F5EAA0 /* SwiftAtproto in Frameworks */ = {isa = PBXBuildFile; productRef = F90B2DA12B2584FA00F5EAA0 /* SwiftAtproto */; };
+		F90B2DA52B258C0900F5EAA0 /* SwiftAtproto in Frameworks */ = {isa = PBXBuildFile; productRef = F90B2DA42B258C0900F5EAA0 /* SwiftAtproto */; };
 		F91B398B2B19A12C007AE11F /* feedgetTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91B398A2B19A12C007AE11F /* feedgetTimeline.swift */; };
 		F935E40B2B00D1D500D54C03 /* actorgetPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935E40A2B00D1D500D54C03 /* actorgetPreferences.swift */; };
 		F938C31E2AF760910069A0B1 /* appbsky.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C31D2AF760910069A0B1 /* appbsky.swift */; };
@@ -189,7 +191,6 @@
 		F9D2F4222B11545000F67B4E /* actorgetProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D2F4212B11545000F67B4E /* actorgetProfiles.swift */; };
 		F9DAED462B1E057D00117E37 /* servercreateSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DAED452B1E057D00117E37 /* servercreateSession.swift */; };
 		F9DAED482B1E080300117E37 /* servergetSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9DAED472B1E080300117E37 /* servergetSession.swift */; };
-		F9DDD5942B243B2B0005FB7C /* SwiftAtproto in Frameworks */ = {isa = PBXBuildFile; productRef = F9DDD5932B243B2B0005FB7C /* SwiftAtproto */; };
 		F9E439072B116FCA001D66E1 /* actorsearchActorsTypeahead.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E439062B116FCA001D66E1 /* actorsearchActorsTypeahead.swift */; };
 /* End PBXBuildFile section */
 
@@ -386,8 +387,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9DDD5942B243B2B0005FB7C /* SwiftAtproto in Frameworks */,
+				F90B2DA22B2584FA00F5EAA0 /* SwiftAtproto in Frameworks */,
 				F9ACB2562AFAE53E0035DC41 /* SwiftFormat in Frameworks */,
+				F90B2DA52B258C0900F5EAA0 /* SwiftAtproto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,7 +677,8 @@
 			name = swiftsky;
 			packageProductDependencies = (
 				F9ACB2552AFAE53E0035DC41 /* SwiftFormat */,
-				F9DDD5932B243B2B0005FB7C /* SwiftAtproto */,
+				F90B2DA12B2584FA00F5EAA0 /* SwiftAtproto */,
+				F90B2DA42B258C0900F5EAA0 /* SwiftAtproto */,
 			);
 			productName = swiftsky;
 			productReference = 36AEF58B29C48F0800B68B24 /* swiftsky.app */;
@@ -709,7 +712,7 @@
 			mainGroup = 36AEF58229C48F0800B68B24;
 			packageReferences = (
 				F9ACB2542AFAE53E0035DC41 /* XCRemoteSwiftPackageReference "SwiftFormat" */,
-				F9A475E02B21F8AA0068D208 /* XCRemoteSwiftPackageReference "swift-atproto" */,
+				F90B2DA32B258C0900F5EAA0 /* XCRemoteSwiftPackageReference "swift-atproto" */,
 			);
 			productRefGroup = 36AEF58C29C48F0800B68B24 /* Products */;
 			projectDirPath = "";
@@ -1122,12 +1125,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F9A475E02B21F8AA0068D208 /* XCRemoteSwiftPackageReference "swift-atproto" */ = {
+		F90B2DA32B258C0900F5EAA0 /* XCRemoteSwiftPackageReference "swift-atproto" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nnabeyang/swift-atproto.git";
 			requirement = {
 				kind = exactVersion;
-				version = 0.1.1;
+				version = 0.2.0;
 			};
 		};
 		F9ACB2542AFAE53E0035DC41 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
@@ -1141,15 +1144,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F90B2DA12B2584FA00F5EAA0 /* SwiftAtproto */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftAtproto;
+		};
+		F90B2DA42B258C0900F5EAA0 /* SwiftAtproto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F90B2DA32B258C0900F5EAA0 /* XCRemoteSwiftPackageReference "swift-atproto" */;
+			productName = SwiftAtproto;
+		};
 		F9ACB2552AFAE53E0035DC41 /* SwiftFormat */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F9ACB2542AFAE53E0035DC41 /* XCRemoteSwiftPackageReference "SwiftFormat" */;
 			productName = SwiftFormat;
-		};
-		F9DDD5932B243B2B0005FB7C /* SwiftAtproto */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F9A475E02B21F8AA0068D208 /* XCRemoteSwiftPackageReference "swift-atproto" */;
-			productName = SwiftAtproto;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

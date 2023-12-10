@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerResetPassword(input: ServerResetPassword_Input) async throws -> Bool {
+    static func ServerResetPassword(client: any XRPCClientProtocol, input: ServerResetPassword_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.resetPassword", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.resetPassword", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

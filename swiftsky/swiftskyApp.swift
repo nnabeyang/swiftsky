@@ -50,7 +50,7 @@ struct swiftskyApp: App {
             if !$0 {
                 pushnotifications.resumeRefreshTask()
                 Task {
-                    globalviewmodel.profile = try? await appbskytypes.ActorGetProfile(actor: XRPCClient.shared.auth.handle)
+                    globalviewmodel.profile = try? await appbskytypes.ActorGetProfile(client: XRPCClient.shared, actor: XRPCClient.shared.auth.handle)
                 }
             } else {
                 pushnotifications.cancelRefreshTask()

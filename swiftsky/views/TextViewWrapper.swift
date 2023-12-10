@@ -114,7 +114,7 @@ struct TextViewWrapper: NSViewRepresentable {
                         if selectedrange.location <= (nsrange.location + nsrange.length), selectedrange.location >= nsrange.location {
                             dismisspopover = false
                             searchtask = Task {
-                                let searchactors = try? await appbskytypes.ActorSearchActorsTypeahead(limit: 5, q: String(handle), term: "")
+                                let searchactors = try? await appbskytypes.ActorSearchActorsTypeahead(client: XRPCClient.shared, limit: 5, q: String(handle), term: "")
                                 if let searchactors {
                                     let searchactorview = SearchActorView(actorstypeahead: .constant(searchactors)) { user in
                                         self.autocomplete.close()

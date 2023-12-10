@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func ActorGetPreferences() async throws -> ActorGetPreferences_Output {
+    static func ActorGetPreferences(client: any XRPCClientProtocol) async throws -> ActorGetPreferences_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.actor.getPreferences", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.actor.getPreferences", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

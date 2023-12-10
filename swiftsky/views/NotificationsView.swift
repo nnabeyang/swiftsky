@@ -150,7 +150,7 @@ struct NotificationsView: View {
     func getNotifications(cursor: String? = nil) async {
         var postMap = [String: appbskytypes.FeedDefs_PostView]()
         do {
-            let notifications = try await appbskytypes.NotificationListNotifications(cursor: cursor, limit: 30, seenAt: nil)
+            let notifications = try await appbskytypes.NotificationListNotifications(client: XRPCClient.shared, cursor: cursor, limit: 30, seenAt: nil)
             if cursor != nil {
                 self.notifications = appbskytypes.NotificationListNotifications_Output(
                     cursor: notifications.cursor,
@@ -165,7 +165,7 @@ struct NotificationsView: View {
                 }
                 return nil
             }
-            let posts = try await appbskytypes.FeedGetPosts(uris: uris)
+            let posts = try await appbskytypes.FeedGetPosts(client: XRPCClient.shared, uris: uris)
             for post in posts.posts {
                 postMap[post.uri] = post
             }

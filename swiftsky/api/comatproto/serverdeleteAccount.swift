@@ -28,8 +28,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerDeleteAccount(input: ServerDeleteAccount_Input) async throws -> Bool {
+    static func ServerDeleteAccount(client: any XRPCClientProtocol, input: ServerDeleteAccount_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.deleteAccount", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.deleteAccount", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

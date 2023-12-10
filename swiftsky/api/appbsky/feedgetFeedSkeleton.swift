@@ -25,8 +25,8 @@ extension appbskytypes {
         }
     }
 
-    static func FeedGetFeedSkeleton(cursor: String?, feed: String, limit: Int?) async throws -> FeedGetFeedSkeleton_Output {
+    static func FeedGetFeedSkeleton(client: any XRPCClientProtocol, cursor: String?, feed: String, limit: Int?) async throws -> FeedGetFeedSkeleton_Output {
         let params: Parameters = ["cursor": .string(cursor), "feed": .string(feed), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.feed.getFeedSkeleton", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.feed.getFeedSkeleton", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

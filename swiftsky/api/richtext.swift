@@ -49,7 +49,7 @@ struct RichText {
             for match in mentionmatches {
                 if let range = Range(match.range(at: 3), in: text) {
                     let handle = text[range]
-                    guard let did = try? await comatprototypes.IdentityResolveHandle(handle: String(handle)) else {
+                    guard let did = try? await comatprototypes.IdentityResolveHandle(client: XRPCClient.shared, handle: String(handle)) else {
                         continue
                     }
                     let facet = appbskytypes.RichtextFacet(

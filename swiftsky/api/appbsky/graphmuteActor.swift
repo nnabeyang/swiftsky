@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func GraphMuteActor(input: GraphMuteActor_Input) async throws -> Bool {
+    static func GraphMuteActor(client: any XRPCClientProtocol, input: GraphMuteActor_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.graph.muteActor", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "app.bsky.graph.muteActor", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

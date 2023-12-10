@@ -8,6 +8,7 @@ import SwiftAtproto
 
 func followUser(did: String) async throws -> comatprototypes.RepoCreateRecord_Output {
     try await comatprototypes.RepoCreateRecord(
+        client: XRPCClient.shared,
         input: .init(collection: "app.bsky.graph.follow",
                      record: LexiconTypeDecoder(
                          typeName: "app.bsky.graph.follow",
@@ -20,6 +21,7 @@ func followUser(did: String) async throws -> comatprototypes.RepoCreateRecord_Ou
 
 func blockUser(did: String) async throws -> comatprototypes.RepoCreateRecord_Output {
     try await comatprototypes.RepoCreateRecord(
+        client: XRPCClient.shared,
         input: .init(collection: "app.bsky.graph.block",
                      record: LexiconTypeDecoder(
                          typeName: "app.bsky.graph.block",
@@ -32,6 +34,7 @@ func blockUser(did: String) async throws -> comatprototypes.RepoCreateRecord_Out
 
 func makePost(text: String, reply: appbskytypes.FeedPost_ReplyRef? = nil, facets: [appbskytypes.RichtextFacet]? = nil, embed: appbskytypes.FeedPost_Embed? = nil) async throws -> comatprototypes.RepoCreateRecord_Output {
     try await comatprototypes.RepoCreateRecord(
+        client: XRPCClient.shared,
         input: .init(collection: "app.bsky.feed.post",
                      record: LexiconTypeDecoder(
                          typeName: "app.bsky.feed.post",
@@ -54,6 +57,7 @@ func makePost(text: String, reply: appbskytypes.FeedPost_ReplyRef? = nil, facets
 
 func likePost(uri: String, cid: String) async throws -> comatprototypes.RepoCreateRecord_Output {
     try await comatprototypes.RepoCreateRecord(
+        client: XRPCClient.shared,
         input: .init(
             collection: "app.bsky.feed.like",
             record: LexiconTypeDecoder(
@@ -71,6 +75,7 @@ func likePost(uri: String, cid: String) async throws -> comatprototypes.RepoCrea
 
 func RepostPost(uri: String, cid: String) async throws -> comatprototypes.RepoCreateRecord_Output {
     try await comatprototypes.RepoCreateRecord(
+        client: XRPCClient.shared,
         input: .init(
             collection: "app.bsky.feed.repost",
             record: LexiconTypeDecoder(

@@ -135,8 +135,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminEmitModerationEvent(input: AdminEmitModerationEvent_Input) async throws -> AdminDefs_ModEventView {
+    static func AdminEmitModerationEvent(client: any XRPCClientProtocol, input: AdminEmitModerationEvent_Input) async throws -> AdminDefs_ModEventView {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.emitModerationEvent", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.admin.emitModerationEvent", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

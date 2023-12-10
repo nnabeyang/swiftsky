@@ -39,8 +39,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerListAppPasswords() async throws -> ServerListAppPasswords_Output {
+    static func ServerListAppPasswords(client: any XRPCClientProtocol) async throws -> ServerListAppPasswords_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.listAppPasswords", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.server.listAppPasswords", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

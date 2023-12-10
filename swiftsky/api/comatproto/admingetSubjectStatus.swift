@@ -62,8 +62,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminGetSubjectStatus(blob: String?, did: String?, uri: String?) async throws -> AdminGetSubjectStatus_Output {
+    static func AdminGetSubjectStatus(client: any XRPCClientProtocol, blob: String?, did: String?, uri: String?) async throws -> AdminGetSubjectStatus_Output {
         let params: Parameters = ["blob": .string(blob), "did": .string(did), "uri": .string(uri)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.getSubjectStatus", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.admin.getSubjectStatus", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

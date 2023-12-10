@@ -63,8 +63,8 @@ extension appbskytypes {
         }
     }
 
-    static func NotificationListNotifications(cursor: String?, limit: Int?, seenAt: String?) async throws -> NotificationListNotifications_Output {
+    static func NotificationListNotifications(client: any XRPCClientProtocol, cursor: String?, limit: Int?, seenAt: String?) async throws -> NotificationListNotifications_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit), "seenAt": .string(seenAt)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.notification.listNotifications", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.notification.listNotifications", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

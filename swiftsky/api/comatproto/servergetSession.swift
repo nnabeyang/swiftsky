@@ -34,8 +34,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerGetSession() async throws -> ServerGetSession_Output {
+    static func ServerGetSession(client: any XRPCClientProtocol) async throws -> ServerGetSession_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.getSession", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.server.getSession", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

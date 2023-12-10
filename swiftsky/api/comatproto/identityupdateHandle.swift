@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func IdentityUpdateHandle(input: IdentityUpdateHandle_Input) async throws -> Bool {
+    static func IdentityUpdateHandle(client: any XRPCClientProtocol, input: IdentityUpdateHandle_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.identity.updateHandle", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.identity.updateHandle", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

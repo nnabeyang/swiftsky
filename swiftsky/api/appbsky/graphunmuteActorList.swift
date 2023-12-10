@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func GraphUnmuteActorList(input: GraphUnmuteActorList_Input) async throws -> Bool {
+    static func GraphUnmuteActorList(client: any XRPCClientProtocol, input: GraphUnmuteActorList_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.graph.unmuteActorList", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "app.bsky.graph.unmuteActorList", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

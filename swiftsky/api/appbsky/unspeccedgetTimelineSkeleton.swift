@@ -25,8 +25,8 @@ extension appbskytypes {
         }
     }
 
-    static func UnspeccedGetTimelineSkeleton(cursor: String?, limit: Int?) async throws -> UnspeccedGetTimelineSkeleton_Output {
+    static func UnspeccedGetTimelineSkeleton(client: any XRPCClientProtocol, cursor: String?, limit: Int?) async throws -> UnspeccedGetTimelineSkeleton_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.unspecced.getTimelineSkeleton", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.unspecced.getTimelineSkeleton", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

@@ -49,7 +49,7 @@ class SavedFeedsModel {
             }
         }
         for i in stride(from: 0, to: neededFeedUris.count, by: 25) {
-            let res = try await appbskytypes.FeedGetFeedGenerators(feeds: Array(neededFeedUris[i ..< min(i + 25, neededFeedUris.count)]))
+            let res = try await appbskytypes.FeedGetFeedGenerators(client: XRPCClient.shared, feeds: Array(neededFeedUris[i ..< min(i + 25, neededFeedUris.count)]))
             for feedInfo in res.feeds {
                 newFeedModels.setObject(CustomFeedModel(data: feedInfo), forKey: feedInfo.uri as NSString)
             }
@@ -73,14 +73,14 @@ class PreferencesModel: ObservableObject {
     @Published var savedFeeds: [String] = []
     @Published var pinnedFeeds: [String] = []
     func update(cb: @escaping ([appbskytypes.ActorDefs_Preferences_Elem]) -> ([appbskytypes.ActorDefs_Preferences_Elem]?)) async throws {
-        let res = try await appbskytypes.ActorGetPreferences()
+        let res = try await appbskytypes.ActorGetPreferences(client: XRPCClient.shared)
         if let newPrefs = cb(res.preferences) {
-            let _ = try await appbskytypes.ActorPutPreferences(input: .init(preferences: newPrefs))
+            let _ = try await appbskytypes.ActorPutPreferences(client: XRPCClient.shared, input: .init(preferences: newPrefs))
         }
     }
 
     func sync() async throws {
-        let res = try await appbskytypes.ActorGetPreferences().preferences
+        let res = try await appbskytypes.ActorGetPreferences(client: XRPCClient.shared).preferences
         for pref in res {
             switch pref {
             case let .actorDefsSavedFeedsPref(feeds):

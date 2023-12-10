@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func NotificationUpdateSeen(input: NotificationUpdateSeen_Input) async throws -> Bool {
+    static func NotificationUpdateSeen(client: any XRPCClientProtocol, input: NotificationUpdateSeen_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.notification.updateSeen", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "app.bsky.notification.updateSeen", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

@@ -51,8 +51,8 @@ extension comatprototypes {
         }
     }
 
-    static func TempTransferAccount(input: TempTransferAccount_Input) async throws -> TempTransferAccount_Output {
+    static func TempTransferAccount(client: any XRPCClientProtocol, input: TempTransferAccount_Input) async throws -> TempTransferAccount_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.temp.transferAccount", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.temp.transferAccount", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

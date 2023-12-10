@@ -28,8 +28,8 @@ extension appbskytypes {
         }
     }
 
-    static func UnspeccedSearchPostsSkeleton(cursor: String?, limit: Int?, q: String) async throws -> UnspeccedSearchPostsSkeleton_Output {
+    static func UnspeccedSearchPostsSkeleton(client: any XRPCClientProtocol, cursor: String?, limit: Int?, q: String) async throws -> UnspeccedSearchPostsSkeleton_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit), "q": .string(q)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.unspecced.searchPostsSkeleton", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.unspecced.searchPostsSkeleton", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

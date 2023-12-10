@@ -59,8 +59,8 @@ extension appbskytypes {
         }
     }
 
-    static func FeedDescribeFeedGenerator() async throws -> FeedDescribeFeedGenerator_Output {
+    static func FeedDescribeFeedGenerator(client: any XRPCClientProtocol) async throws -> FeedDescribeFeedGenerator_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.feed.describeFeedGenerator", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.feed.describeFeedGenerator", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

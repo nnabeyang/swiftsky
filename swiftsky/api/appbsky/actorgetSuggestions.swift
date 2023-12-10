@@ -25,8 +25,8 @@ extension appbskytypes {
         }
     }
 
-    static func ActorGetSuggestions(cursor: String?, limit: Int?) async throws -> ActorGetSuggestions_Output {
+    static func ActorGetSuggestions(client: any XRPCClientProtocol, cursor: String?, limit: Int?) async throws -> ActorGetSuggestions_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.actor.getSuggestions", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.actor.getSuggestions", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

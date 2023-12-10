@@ -22,8 +22,8 @@ extension comatprototypes {
         }
     }
 
-    static func SyncRequestCrawl(input: SyncRequestCrawl_Input) async throws -> Bool {
+    static func SyncRequestCrawl(client: any XRPCClientProtocol, input: SyncRequestCrawl_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.sync.requestCrawl", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.sync.requestCrawl", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

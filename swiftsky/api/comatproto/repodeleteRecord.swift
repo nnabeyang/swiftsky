@@ -34,8 +34,8 @@ extension comatprototypes {
         }
     }
 
-    static func RepoDeleteRecord(input: RepoDeleteRecord_Input) async throws -> Bool {
+    static func RepoDeleteRecord(client: any XRPCClientProtocol, input: RepoDeleteRecord_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.repo.deleteRecord", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.repo.deleteRecord", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

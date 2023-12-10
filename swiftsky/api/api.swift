@@ -39,7 +39,7 @@ class XRPCClient: XRPCBaseClient {
 
     override func refreshSession() async -> Bool {
         do {
-            let result = try await comatprototypes.ServerRefreshSession()
+            let result = try await comatprototypes.ServerRefreshSession(client: XRPCClient.shared)
             auth.accessJwt = result.accessJwt
             auth.refreshJwt = result.refreshJwt
             auth.handle = result.handle
@@ -57,7 +57,7 @@ class XRPCClient: XRPCBaseClient {
         group.enter()
         Task {
             do {
-                let session = try await comatprototypes.ServerGetSession()
+                let session = try await comatprototypes.ServerGetSession(client: XRPCClient.shared)
                 if auth.did == session.did, auth.handle == session.handle {
                     Auth.shared.needAuthorization = false
                 }

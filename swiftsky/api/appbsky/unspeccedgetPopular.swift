@@ -25,8 +25,8 @@ extension appbskytypes {
         }
     }
 
-    static func UnspeccedGetPopular(cursor: String?, includeNsfw: Bool?, limit: Int?) async throws -> UnspeccedGetPopular_Output {
+    static func UnspeccedGetPopular(client: any XRPCClientProtocol, cursor: String?, includeNsfw: Bool?, limit: Int?) async throws -> UnspeccedGetPopular_Output {
         let params: Parameters = ["cursor": .string(cursor), "includeNsfw": .bool(includeNsfw), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.unspecced.getPopular", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.unspecced.getPopular", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

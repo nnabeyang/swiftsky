@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminGetInviteCodes(cursor: String?, limit: Int?, sort: String?) async throws -> AdminGetInviteCodes_Output {
+    static func AdminGetInviteCodes(client: any XRPCClientProtocol, cursor: String?, limit: Int?, sort: String?) async throws -> AdminGetInviteCodes_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit), "sort": .string(sort)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.getInviteCodes", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.admin.getInviteCodes", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminDisableInviteCodes(input: AdminDisableInviteCodes_Input) async throws -> Bool {
+    static func AdminDisableInviteCodes(client: any XRPCClientProtocol, input: AdminDisableInviteCodes_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.disableInviteCodes", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.admin.disableInviteCodes", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

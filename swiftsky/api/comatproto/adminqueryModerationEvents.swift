@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminQueryModerationEvents(createdBy: String?, cursor: String?, includeAllUserRecords: Bool?, limit: Int?, sortDirection: String?, subject: String?, types: [String]?) async throws -> AdminQueryModerationEvents_Output {
+    static func AdminQueryModerationEvents(client: any XRPCClientProtocol, createdBy: String?, cursor: String?, includeAllUserRecords: Bool?, limit: Int?, sortDirection: String?, subject: String?, types: [String]?) async throws -> AdminQueryModerationEvents_Output {
         let params: Parameters = ["createdBy": .string(createdBy), "cursor": .string(cursor), "includeAllUserRecords": .bool(includeAllUserRecords), "limit": .integer(limit), "sortDirection": .string(sortDirection), "subject": .string(subject), "types": .array(types)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.queryModerationEvents", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.admin.queryModerationEvents", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

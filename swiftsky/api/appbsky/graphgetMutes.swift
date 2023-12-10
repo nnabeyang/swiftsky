@@ -25,8 +25,8 @@ extension appbskytypes {
         }
     }
 
-    static func GraphGetMutes(cursor: String?, limit: Int?) async throws -> GraphGetMutes_Output {
+    static func GraphGetMutes(client: any XRPCClientProtocol, cursor: String?, limit: Int?) async throws -> GraphGetMutes_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.graph.getMutes", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.graph.getMutes", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

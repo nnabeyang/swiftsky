@@ -25,8 +25,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminSearchRepos(cursor: String?, limit: Int?, q: String?, term: String?) async throws -> AdminSearchRepos_Output {
+    static func AdminSearchRepos(client: any XRPCClientProtocol, cursor: String?, limit: Int?, q: String?, term: String?) async throws -> AdminSearchRepos_Output {
         let params: Parameters = ["cursor": .string(cursor), "limit": .integer(limit), "q": .string(q), "term": .string(term)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.searchRepos", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.admin.searchRepos", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

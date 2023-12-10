@@ -125,8 +125,8 @@ extension comatprototypes {
         }
     }
 
-    static func RepoApplyWrites(input: RepoApplyWrites_Input) async throws -> Bool {
+    static func RepoApplyWrites(client: any XRPCClientProtocol, input: RepoApplyWrites_Input) async throws -> Bool {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.repo.applyWrites", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.repo.applyWrites", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

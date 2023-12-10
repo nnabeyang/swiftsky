@@ -66,8 +66,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerCreateAccount(input: ServerCreateAccount_Input) async throws -> ServerCreateAccount_Output {
+    static func ServerCreateAccount(client: any XRPCClientProtocol, input: ServerCreateAccount_Input) async throws -> ServerCreateAccount_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.createAccount", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.createAccount", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

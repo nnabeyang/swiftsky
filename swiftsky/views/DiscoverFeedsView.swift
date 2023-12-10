@@ -89,7 +89,7 @@ struct DiscoverFeedsView: View {
     func loadContent() async {
         isLoading = true
         do {
-            let feeds = try await appbskytypes.UnspeccedGetPopularFeedGenerators(cursor: nil, limit: 50, query: nil)
+            let feeds = try await appbskytypes.UnspeccedGetPopularFeedGenerators(client: XRPCClient.shared, cursor: nil, limit: 50, query: nil)
             self.feeds = feeds.feeds
         } catch {
             print(error)

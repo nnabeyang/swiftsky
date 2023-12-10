@@ -59,8 +59,8 @@ extension appbskytypes {
         }
     }
 
-    static func FeedGetPostThread(depth: Int?, parentHeight: Int?, uri: String) async throws -> FeedGetPostThread_Output {
+    static func FeedGetPostThread(client: any XRPCClientProtocol, depth: Int?, parentHeight: Int?, uri: String) async throws -> FeedGetPostThread_Output {
         let params: Parameters = ["depth": .integer(depth), "parentHeight": .integer(parentHeight), "uri": .string(uri)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.feed.getPostThread", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.feed.getPostThread", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

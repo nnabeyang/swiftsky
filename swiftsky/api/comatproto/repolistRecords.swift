@@ -45,8 +45,8 @@ extension comatprototypes {
         }
     }
 
-    static func RepoListRecords(collection: String, cursor: String?, limit: Int?, repo: String, reverse: Bool?, rkeyEnd: String?, rkeyStart: String?) async throws -> RepoListRecords_Output {
+    static func RepoListRecords(client: any XRPCClientProtocol, collection: String, cursor: String?, limit: Int?, repo: String, reverse: Bool?, rkeyEnd: String?, rkeyStart: String?) async throws -> RepoListRecords_Output {
         let params: Parameters = ["collection": .string(collection), "cursor": .string(cursor), "limit": .integer(limit), "repo": .string(repo), "reverse": .bool(reverse), "rkeyEnd": .string(rkeyEnd), "rkeyStart": .string(rkeyStart)]
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.repo.listRecords", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "com.atproto.repo.listRecords", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

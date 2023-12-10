@@ -22,8 +22,8 @@ extension appbskytypes {
         }
     }
 
-    static func GraphGetSuggestedFollowsByActor(actor: String) async throws -> GraphGetSuggestedFollowsByActor_Output {
+    static func GraphGetSuggestedFollowsByActor(client: any XRPCClientProtocol, actor: String) async throws -> GraphGetSuggestedFollowsByActor_Output {
         let params: Parameters = ["actor": .string(actor)]
-        return try await XRPCClient.shared.fetch(endpoint: "app.bsky.graph.getSuggestedFollowsByActor", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none)
+        return try await client.fetch(endpoint: "app.bsky.graph.getSuggestedFollowsByActor", contentType: "*/*", httpMethod: .get, params: params, input: Bool?.none, retry: true)
     }
 }

@@ -116,8 +116,8 @@ extension comatprototypes {
         }
     }
 
-    static func AdminUpdateSubjectStatus(input: AdminUpdateSubjectStatus_Input) async throws -> AdminUpdateSubjectStatus_Output {
+    static func AdminUpdateSubjectStatus(client: any XRPCClientProtocol, input: AdminUpdateSubjectStatus_Input) async throws -> AdminUpdateSubjectStatus_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.admin.updateSubjectStatus", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.admin.updateSubjectStatus", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

@@ -121,8 +121,8 @@ extension comatprototypes {
         }
     }
 
-    static func ModerationCreateReport(input: ModerationCreateReport_Input) async throws -> ModerationCreateReport_Output {
+    static func ModerationCreateReport(client: any XRPCClientProtocol, input: ModerationCreateReport_Input) async throws -> ModerationCreateReport_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.moderation.createReport", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.moderation.createReport", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

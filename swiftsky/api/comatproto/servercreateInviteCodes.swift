@@ -59,8 +59,8 @@ extension comatprototypes {
         }
     }
 
-    static func ServerCreateInviteCodes(input: ServerCreateInviteCodes_Input) async throws -> ServerCreateInviteCodes_Output {
+    static func ServerCreateInviteCodes(client: any XRPCClientProtocol, input: ServerCreateInviteCodes_Input) async throws -> ServerCreateInviteCodes_Output {
         let params: Bool? = nil
-        return try await XRPCClient.shared.fetch(endpoint: "com.atproto.server.createInviteCodes", contentType: "application/json", httpMethod: .post, params: params, input: input)
+        return try await client.fetch(endpoint: "com.atproto.server.createInviteCodes", contentType: "application/json", httpMethod: .post, params: params, input: input, retry: true)
     }
 }

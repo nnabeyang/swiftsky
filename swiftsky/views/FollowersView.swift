@@ -28,13 +28,14 @@ private struct FollowersRowView: View {
         followingdisabled = true
         Task {
             do {
-                let result = try await comatprototypes.RepoDeleteRecord(input: .init(
-                    collection: "app.bsky.graph.follow",
-                    repo: XRPCClient.shared.auth.did,
-                    rkey: AtUri(uri: user.viewer!.following!).rkey,
-                    swapCommit: nil,
-                    swapRecord: nil
-                ))
+                let result = try await comatprototypes.RepoDeleteRecord(client: XRPCClient.shared,
+                                                                        input: .init(
+                                                                            collection: "app.bsky.graph.follow",
+                                                                            repo: XRPCClient.shared.auth.did,
+                                                                            rkey: AtUri(uri: user.viewer!.following!).rkey,
+                                                                            swapCommit: nil,
+                                                                            swapRecord: nil
+                                                                        ))
                 if result {
                     user.viewer!.following = nil
                 }
@@ -98,13 +99,13 @@ struct FollowersView: View {
     @Binding var path: [Navigation]
     func getFollowers() async {
         do {
-            followers = try await appbskytypes.GraphGetFollowers(actor: handle, cursor: nil, limit: 30)
+            followers = try await appbskytypes.GraphGetFollowers(client: XRPCClient.shared, actor: handle, cursor: nil, limit: 30)
         } catch {}
     }
 
     func getMoreFollowers(cursor: String) async {
         do {
-            let result = try await appbskytypes.GraphGetFollowers(actor: handle, cursor: cursor, limit: 30)
+            let result = try await appbskytypes.GraphGetFollowers(client: XRPCClient.shared, actor: handle, cursor: cursor, limit: 30)
             followers!.cursor = result.cursor
             followers = appbskytypes.GraphGetFollowers_Output(
                 cursor: result.cursor, followers: followers!.followers + result.followers,
