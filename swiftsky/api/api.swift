@@ -51,6 +51,10 @@ class XRPCClient: XRPCBaseClient {
         }
     }
 
+    override func getAuthorization(endpoint: String) -> String {
+        endpoint == "com.atproto.server.refreshSession" ? auth.refreshJwt : auth.accessJwt
+    }
+
     func postInit(auth: AuthInfo) {
         self.auth = auth
         let group = DispatchGroup()

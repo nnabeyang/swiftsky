@@ -53,10 +53,10 @@
 		F90B2DA52B258C0900F5EAA0 /* SwiftAtproto in Frameworks */ = {isa = PBXBuildFile; productRef = F90B2DA42B258C0900F5EAA0 /* SwiftAtproto */; };
 		F91B398B2B19A12C007AE11F /* feedgetTimeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91B398A2B19A12C007AE11F /* feedgetTimeline.swift */; };
 		F935E40B2B00D1D500D54C03 /* actorgetPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F935E40A2B00D1D500D54C03 /* actorgetPreferences.swift */; };
-		F938C31E2AF760910069A0B1 /* appbsky.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C31D2AF760910069A0B1 /* appbsky.swift */; };
+		F938C31E2AF760910069A0B1 /* appbskytypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C31D2AF760910069A0B1 /* appbskytypes.swift */; };
 		F938C3202AF760BA0069A0B1 /* feeddefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C31F2AF760BA0069A0B1 /* feeddefs.swift */; };
 		F938C3222AF762590069A0B1 /* actordefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C3212AF762590069A0B1 /* actordefs.swift */; };
-		F938C3252AF762ED0069A0B1 /* comatproto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C3242AF762ED0069A0B1 /* comatproto.swift */; };
+		F938C3252AF762ED0069A0B1 /* comatprototypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C3242AF762ED0069A0B1 /* comatprototypes.swift */; };
 		F938C3272AF764110069A0B1 /* labeldefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C3262AF764110069A0B1 /* labeldefs.swift */; };
 		F938C3292AF7644C0069A0B1 /* graphdefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C3282AF7644C0069A0B1 /* graphdefs.swift */; };
 		F938C32B2AF76D300069A0B1 /* embedimages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938C32A2AF76D300069A0B1 /* embedimages.swift */; };
@@ -242,10 +242,10 @@
 		36F442402A07E3C7009D2F0C /* ProfilePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePreview.swift; sourceTree = "<group>"; };
 		F91B398A2B19A12C007AE11F /* feedgetTimeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feedgetTimeline.swift; sourceTree = "<group>"; };
 		F935E40A2B00D1D500D54C03 /* actorgetPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = actorgetPreferences.swift; sourceTree = "<group>"; };
-		F938C31D2AF760910069A0B1 /* appbsky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appbsky.swift; sourceTree = "<group>"; };
+		F938C31D2AF760910069A0B1 /* appbskytypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appbskytypes.swift; sourceTree = "<group>"; };
 		F938C31F2AF760BA0069A0B1 /* feeddefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feeddefs.swift; sourceTree = "<group>"; };
 		F938C3212AF762590069A0B1 /* actordefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = actordefs.swift; sourceTree = "<group>"; };
-		F938C3242AF762ED0069A0B1 /* comatproto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = comatproto.swift; sourceTree = "<group>"; };
+		F938C3242AF762ED0069A0B1 /* comatprototypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = comatprototypes.swift; sourceTree = "<group>"; };
 		F938C3262AF764110069A0B1 /* labeldefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = labeldefs.swift; sourceTree = "<group>"; };
 		F938C3282AF7644C0069A0B1 /* graphdefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = graphdefs.swift; sourceTree = "<group>"; };
 		F938C32A2AF76D300069A0B1 /* embedimages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = embedimages.swift; sourceTree = "<group>"; };
@@ -454,8 +454,6 @@
 			children = (
 				F938C31C2AF7605B0069A0B1 /* appbsky */,
 				F938C3232AF7627E0069A0B1 /* comatproto */,
-				F938C31D2AF760910069A0B1 /* appbsky.swift */,
-				F938C3242AF762ED0069A0B1 /* comatproto.swift */,
 				36AEF5BA29C4923200B68B24 /* keychain.swift */,
 				36AEF5BD29C492A100B68B24 /* api.swift */,
 				3631A4D629C9814A00ED7B27 /* uri.swift */,
@@ -503,6 +501,7 @@
 		F938C31C2AF7605B0069A0B1 /* appbsky */ = {
 			isa = PBXGroup;
 			children = (
+				F938C31D2AF760910069A0B1 /* appbskytypes.swift */,
 				F938C3212AF762590069A0B1 /* actordefs.swift */,
 				F935E40A2B00D1D500D54C03 /* actorgetPreferences.swift */,
 				F9D2F41F2B1152D400F67B4E /* actorgetProfile.swift */,
@@ -575,6 +574,7 @@
 		F938C3232AF7627E0069A0B1 /* comatproto */ = {
 			isa = PBXGroup;
 			children = (
+				F938C3242AF762ED0069A0B1 /* comatprototypes.swift */,
 				F9A7D6CE2B1F5C50009F22CB /* admindefs.swift */,
 				F9A7D6E02B1F5FE3009F22CB /* admindeleteAccount.swift */,
 				F9A7D6E22B1F6018009F22CB /* admindisableAccountInvites.swift */,
@@ -817,7 +817,7 @@
 				F9A7D70F2B1FD5BD009F22CB /* adminupdateSubjectStatus.swift in Sources */,
 				3631A4D729C9814A00ED7B27 /* uri.swift in Sources */,
 				F9A7D7452B1FD96C009F22CB /* serverreserveSigningKey.swift in Sources */,
-				F938C31E2AF760910069A0B1 /* appbsky.swift in Sources */,
+				F938C31E2AF760910069A0B1 /* appbskytypes.swift in Sources */,
 				F9A705572B1B56C200A1D393 /* feedgetFeedGenerator.swift in Sources */,
 				F9A7D7632B1FDE0B009F22CB /* syncsubscribeRepos.swift in Sources */,
 				F9A7D72B2B1FD7FD009F22CB /* servercreateAppPassword.swift in Sources */,
@@ -877,7 +877,7 @@
 				F9A7D6FB2B1F61B1009F22CB /* admingetRepo.swift in Sources */,
 				F9A7D74D2B1FD9BF009F22CB /* syncgetBlob.swift in Sources */,
 				F9A7D7932B1FEB88009F22CB /* notificationgetUnreadCount.swift in Sources */,
-				F938C3252AF762ED0069A0B1 /* comatproto.swift in Sources */,
+				F938C3252AF762ED0069A0B1 /* comatprototypes.swift in Sources */,
 				F9A7D77B2B1FE9D0009F22CB /* graphgetListBlocks.swift in Sources */,
 				F9A7D73F2B1FD933009F22CB /* serverrequestEmailConfirmation.swift in Sources */,
 				F9A7D7612B1FDDF8009F22CB /* syncrequestCrawl.swift in Sources */,
@@ -1130,7 +1130,7 @@
 			repositoryURL = "https://github.com/nnabeyang/swift-atproto.git";
 			requirement = {
 				kind = exactVersion;
-				version = 0.2.0;
+				version = 0.3.0;
 			};
 		};
 		F9ACB2542AFAE53E0035DC41 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {

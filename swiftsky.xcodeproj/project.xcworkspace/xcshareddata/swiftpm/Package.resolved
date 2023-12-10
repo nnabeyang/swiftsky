@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/nnabeyang/swift-atproto.git",
       "state" : {
-        "revision" : "e43d1e61f1f02fe0505d63e87f6e3be75987eaf4",
-        "version" : "0.2.0"
+        "revision" : "d6e35638fb1715366609b3f291cb88225592f505",
+        "version" : "0.3.0"
       }
     },
     {
