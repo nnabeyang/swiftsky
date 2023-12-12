@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class NotificationListNotifications_Notification: Codable {
-        let type = "app.bsky.notification.listNotifications#notification"
         var author: ActorDefs_ProfileView
         var cid: String
         var indexedAt: String
@@ -33,7 +32,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case author
             case cid
             case indexedAt
@@ -47,7 +45,6 @@ extension appbskytypes {
     }
 
     class NotificationListNotifications_Output: Codable {
-        let type = "app.bsky.notification.listNotifications"
         var cursor: String?
         var notifications: [NotificationListNotifications_Notification]
 
@@ -57,7 +54,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case notifications
         }

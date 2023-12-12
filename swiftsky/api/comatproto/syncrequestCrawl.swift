@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class SyncRequestCrawl_Input: Codable {
-        let type = "com.atproto.sync.requestCrawl"
         var hostname: String
 
         init(hostname: String) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case hostname
         }
     }

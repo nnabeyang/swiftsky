@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerRefreshSession_Output: Codable {
-        let type = "com.atproto.server.refreshSession"
         var accessJwt: String
         var did: String
         var didDoc: LexiconTypeDecoder?
@@ -25,7 +24,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case accessJwt
             case did
             case didDoc

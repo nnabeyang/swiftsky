@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphMuteActorList_Input: Codable {
-        let type = "app.bsky.graph.muteActorList"
         var list: String
 
         init(list: String) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case list
         }
     }

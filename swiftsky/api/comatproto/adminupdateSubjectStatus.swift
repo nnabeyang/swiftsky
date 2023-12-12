@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminUpdateSubjectStatus_Input: Codable {
-        let type = "com.atproto.admin.updateSubjectStatus"
         var subject: AdminUpdateSubjectStatus_Input_Subject
         var takedown: AdminDefs_StatusAttr?
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case subject
             case takedown
         }
@@ -50,20 +48,22 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRepoBlobRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoBlobRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminUpdateSubjectStatus_Output: Codable {
-        let type = "com.atproto.admin.updateSubjectStatus"
         var subject: AdminUpdateSubjectStatus_Output_Subject
         var takedown: AdminDefs_StatusAttr?
 
@@ -73,7 +73,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case subject
             case takedown
         }
@@ -104,14 +103,17 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRepoBlobRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoBlobRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class RepoDeleteRecord_Input: Codable {
-        let type = "com.atproto.repo.deleteRecord"
         var collection: String
         var repo: String
         var rkey: String
@@ -25,7 +24,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case collection
             case repo
             case rkey

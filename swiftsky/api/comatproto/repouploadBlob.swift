@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class RepoUploadBlob_Output: Codable {
-        let type = "com.atproto.repo.uploadBlob"
         var blob: LexBlob
 
         init(blob: LexBlob) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blob
         }
     }

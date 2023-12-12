@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphGetSuggestedFollowsByActor_Output: Codable {
-        let type = "app.bsky.graph.getSuggestedFollowsByActor"
         var suggestions: [ActorDefs_ProfileView]
 
         init(suggestions: [ActorDefs_ProfileView]) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case suggestions
         }
     }

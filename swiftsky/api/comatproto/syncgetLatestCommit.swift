@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class SyncGetLatestCommit_Output: Codable {
-        let type = "com.atproto.sync.getLatestCommit"
         var cid: String
         var rev: String
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case rev
         }

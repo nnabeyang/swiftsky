@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerGetAccountInviteCodes_Output: Codable {
-        let type = "com.atproto.server.getAccountInviteCodes"
         var codes: [ServerDefs_InviteCode]
 
         init(codes: [ServerDefs_InviteCode]) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case codes
         }
     }

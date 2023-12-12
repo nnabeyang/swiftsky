@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminGetInviteCodes_Output: Codable {
-        let type = "com.atproto.admin.getInviteCodes"
         var codes: [ServerDefs_InviteCode]
         var cursor: String?
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case codes
             case cursor
         }

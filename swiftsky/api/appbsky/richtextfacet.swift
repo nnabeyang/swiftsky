@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class RichtextFacet: Codable {
-        let type = "app.bsky.richtext.facet"
         var features: [RichtextFacet_Features_Elem]
         var index: RichtextFacet_ByteSlice
 
@@ -19,14 +18,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case features
             case index
         }
     }
 
     class RichtextFacet_ByteSlice: Codable {
-        let type = "app.bsky.richtext.facet#byteSlice"
         var byteEnd: Int
         var byteStart: Int
 
@@ -36,7 +33,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case byteEnd
             case byteStart
         }
@@ -67,20 +63,22 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .richtextFacetMention(value):
-                try container.encode(value)
+                try container.encode("app.bsky.richtext.facet#mention", forKey: .type)
+                try value.encode(to: encoder)
             case let .richtextFacetLink(value):
-                try container.encode(value)
+                try container.encode("app.bsky.richtext.facet#link", forKey: .type)
+                try value.encode(to: encoder)
             case let .richtextFacetTag(value):
-                try container.encode(value)
+                try container.encode("app.bsky.richtext.facet#tag", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class RichtextFacet_Link: Codable {
-        let type = "app.bsky.richtext.facet#link"
         var uri: String
 
         init(uri: String) {
@@ -88,13 +86,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case uri
         }
     }
 
     class RichtextFacet_Mention: Codable {
-        let type = "app.bsky.richtext.facet#mention"
         var did: String
 
         init(did: String) {
@@ -102,13 +98,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
         }
     }
 
     class RichtextFacet_Tag: Codable {
-        let type = "app.bsky.richtext.facet#tag"
         var tag: String
 
         init(tag: String) {
@@ -116,7 +110,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case tag
         }
     }

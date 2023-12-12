@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class ActorPutPreferences_Input: Codable {
-        let type = "app.bsky.actor.putPreferences"
         var preferences: [ActorDefs_Preferences_Elem]
 
         init(preferences: [ActorDefs_Preferences_Elem]) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case preferences
         }
     }

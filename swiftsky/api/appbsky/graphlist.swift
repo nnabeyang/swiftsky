@@ -59,10 +59,11 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .comAtprotoLabelDefsSelfLabels(value):
-                try container.encode(value)
+                try container.encode("com.atproto.label.defs#selfLabels", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

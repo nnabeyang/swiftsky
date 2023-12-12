@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphGetFollows_Output: Codable {
-        let type = "app.bsky.graph.getFollows"
         var cursor: String?
         var follows: [ActorDefs_ProfileView]
         var subject: ActorDefs_ProfileView
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case follows
             case subject

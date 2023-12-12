@@ -53,14 +53,17 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedThreadgateMentionRule(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.threadgate#mentionRule", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedThreadgateFollowingRule(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.threadgate#followingRule", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedThreadgateListRule(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.threadgate#listRule", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -77,7 +80,6 @@ extension appbskytypes {
     }
 
     class FeedThreadgate_ListRule: Codable {
-        let type = "app.bsky.feed.threadgate#listRule"
         var list: String
 
         init(list: String) {
@@ -85,7 +87,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case list
         }
     }

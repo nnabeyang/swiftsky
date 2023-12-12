@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerRequestEmailUpdate_Output: Codable {
-        let type = "com.atproto.server.requestEmailUpdate"
         var tokenRequired: Bool
 
         init(tokenRequired: Bool) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case tokenRequired
         }
     }

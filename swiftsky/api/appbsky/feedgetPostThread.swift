@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetPostThread_Output: Codable {
-        let type = "app.bsky.feed.getPostThread"
         var thread: FeedGetPostThread_Output_Thread
 
         init(thread: FeedGetPostThread_Output_Thread) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case thread
         }
     }
@@ -47,14 +45,17 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsThreadViewPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#threadViewPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsNotFoundPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#notFoundPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsBlockedPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#blockedPost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

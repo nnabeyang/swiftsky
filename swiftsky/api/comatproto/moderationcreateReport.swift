@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ModerationCreateReport_Input: Codable {
-        let type = "com.atproto.moderation.createReport"
         var reason: String?
         var reasonType: String
         var subject: ModerationCreateReport_Input_Subject
@@ -21,7 +20,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case reason
             case reasonType
             case subject
@@ -50,18 +48,19 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class ModerationCreateReport_Output: Codable {
-        let type = "com.atproto.moderation.createReport"
         var createdAt: String
         var id: Int
         var reason: String?
@@ -79,7 +78,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case createdAt
             case id
             case reason
@@ -111,12 +109,14 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

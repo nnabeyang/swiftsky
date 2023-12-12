@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerDefs_InviteCode: Codable {
-        let type = "com.atproto.server.defs#inviteCode"
         var available: Int
         var code: String
         var createdAt: String
@@ -29,7 +28,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case available
             case code
             case createdAt
@@ -41,7 +39,6 @@ extension comatprototypes {
     }
 
     class ServerDefs_InviteCodeUse: Codable {
-        let type = "com.atproto.server.defs#inviteCodeUse"
         var usedAt: String
         var usedBy: String
 
@@ -51,7 +48,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case usedAt
             case usedBy
         }

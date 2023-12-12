@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminQueryModerationEvents_Output: Codable {
-        let type = "com.atproto.admin.queryModerationEvents"
         var cursor: String?
         var events: [AdminDefs_ModEventView]
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case events
         }

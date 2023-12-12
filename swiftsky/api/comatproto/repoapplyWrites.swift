@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class RepoApplyWrites_Create: Codable {
-        let type = "com.atproto.repo.applyWrites#create"
         var collection: String
         var rkey: String?
         var value: LexiconTypeDecoder
@@ -21,7 +20,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case collection
             case rkey
             case value
@@ -29,7 +27,6 @@ extension comatprototypes {
     }
 
     class RepoApplyWrites_Delete: Codable {
-        let type = "com.atproto.repo.applyWrites#delete"
         var collection: String
         var rkey: String
 
@@ -39,14 +36,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case collection
             case rkey
         }
     }
 
     class RepoApplyWrites_Input: Codable {
-        let type = "com.atproto.repo.applyWrites"
         var repo: String
         var swapCommit: String?
         var validate: Bool?
@@ -60,7 +55,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case repo
             case swapCommit
             case validate
@@ -93,20 +87,22 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .repoApplyWritesCreate(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.applyWrites#create", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoApplyWritesUpdate(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.applyWrites#update", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoApplyWritesDelete(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.applyWrites#delete", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class RepoApplyWrites_Update: Codable {
-        let type = "com.atproto.repo.applyWrites#update"
         var collection: String
         var rkey: String
         var value: LexiconTypeDecoder
@@ -118,7 +114,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case collection
             case rkey
             case value

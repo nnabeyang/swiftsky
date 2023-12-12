@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class LabelDefs_Label: Codable {
-        let type = "com.atproto.label.defs#label"
         var cid: String?
         var cts: String
         var neg: Bool?
@@ -27,7 +26,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case cts
             case neg
@@ -38,7 +36,6 @@ extension comatprototypes {
     }
 
     class LabelDefs_SelfLabel: Codable {
-        let type = "com.atproto.label.defs#selfLabel"
         var val: String
 
         init(val: String) {
@@ -46,13 +43,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case val
         }
     }
 
     class LabelDefs_SelfLabels: Codable {
-        let type = "com.atproto.label.defs#selfLabels"
         var values: [LabelDefs_SelfLabel]
 
         init(values: [LabelDefs_SelfLabel]) {
@@ -60,7 +55,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case values
         }
     }

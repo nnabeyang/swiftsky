@@ -36,6 +36,12 @@ class XRPCClient: XRPCBaseClient {
         let client = XRPCClient(host: URL(string: "https://bsky.social")!)
         return client
     }()
+    
+    override init(host: URL) {
+        super.init(host: host)
+        comatprototypes.registerLexiconTypes()
+        appbskytypes.registerLexiconTypes()
+    }
 
     override func refreshSession() async -> Bool {
         do {

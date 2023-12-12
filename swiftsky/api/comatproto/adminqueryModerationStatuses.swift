@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminQueryModerationStatuses_Output: Codable {
-        let type = "com.atproto.admin.queryModerationStatuses"
         var cursor: String?
         var subjectStatuses: [AdminDefs_SubjectStatusView]
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case subjectStatuses
         }

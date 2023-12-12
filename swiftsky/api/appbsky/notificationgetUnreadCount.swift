@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class NotificationGetUnreadCount_Output: Codable {
-        let type = "app.bsky.notification.getUnreadCount"
         var count: Int
 
         init(count: Int) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case count
         }
     }

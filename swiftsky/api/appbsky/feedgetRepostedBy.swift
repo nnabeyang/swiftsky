@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetRepostedBy_Output: Codable {
-        let type = "app.bsky.feed.getRepostedBy"
         var cid: String?
         var cursor: String?
         var repostedBy: [ActorDefs_ProfileView]
@@ -23,7 +22,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case cursor
             case repostedBy

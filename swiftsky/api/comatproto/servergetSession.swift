@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerGetSession_Output: Codable {
-        let type = "com.atproto.server.getSession"
         var did: String
         var didDoc: LexiconTypeDecoder?
         var email: String?
@@ -25,7 +24,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case didDoc
             case email

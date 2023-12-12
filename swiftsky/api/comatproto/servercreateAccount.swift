@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerCreateAccount_Input: Codable {
-        let type = "com.atproto.server.createAccount"
         var did: String?
         var email: String?
         var handle: String
@@ -29,7 +28,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case email
             case handle
@@ -41,7 +39,6 @@ extension comatprototypes {
     }
 
     class ServerCreateAccount_Output: Codable {
-        let type = "com.atproto.server.createAccount"
         var accessJwt: String
         var did: String
         var didDoc: LexiconTypeDecoder?
@@ -57,7 +54,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case accessJwt
             case did
             case didDoc

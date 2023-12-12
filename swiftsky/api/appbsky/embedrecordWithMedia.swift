@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class EmbedRecordWithMedia: Codable {
-        let type = "app.bsky.embed.recordWithMedia"
         var media: EmbedRecordWithMedia_Media
         var record: EmbedRecord
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case media
             case record
         }
@@ -47,18 +45,19 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .embedImages(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.images", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedExternal(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.external", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class EmbedRecordWithMedia_View: Codable {
-        let type = "app.bsky.embed.recordWithMedia#view"
         var media: EmbedRecordWithMedia_View_Media
         var record: EmbedRecord_View
 
@@ -68,7 +67,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case media
             case record
         }
@@ -96,12 +94,14 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .embedImagesView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.images#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedExternalView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.external#view", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

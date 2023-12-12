@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedDescribeFeedGenerator_Feed: Codable {
-        let type = "app.bsky.feed.describeFeedGenerator#feed"
         var uri: String
 
         init(uri: String) {
@@ -17,13 +16,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case uri
         }
     }
 
     class FeedDescribeFeedGenerator_Links: Codable {
-        let type = "app.bsky.feed.describeFeedGenerator#links"
         var privacyPolicy: String?
         var termsOfService: String?
 
@@ -33,14 +30,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case privacyPolicy
             case termsOfService
         }
     }
 
     class FeedDescribeFeedGenerator_Output: Codable {
-        let type = "app.bsky.feed.describeFeedGenerator"
         var did: String
         var feeds: [FeedDescribeFeedGenerator_Feed]
         var links: FeedDescribeFeedGenerator_Links?
@@ -52,7 +47,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case feeds
             case links

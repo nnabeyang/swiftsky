@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class NotificationUpdateSeen_Input: Codable {
-        let type = "app.bsky.notification.updateSeen"
         var seenAt: String
 
         init(seenAt: String) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case seenAt
         }
     }

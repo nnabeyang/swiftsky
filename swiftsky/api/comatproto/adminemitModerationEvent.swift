@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminEmitModerationEvent_Input: Codable {
-        let type = "com.atproto.admin.emitModerationEvent"
         var createdBy: String
         var event: AdminEmitModerationEvent_Input_Event
         var subject: AdminEmitModerationEvent_Input_Subject
@@ -23,7 +22,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case createdBy
             case event
             case subject
@@ -77,28 +75,38 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsModEventTakedown(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventTakedown", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventAcknowledge(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventAcknowledge", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventEscalate(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventEscalate", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventComment(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventComment", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventLabel(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventLabel", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventReport(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventReport", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventMute(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventMute", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventReverseTakedown(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventReverseTakedown", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventUnmute(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventUnmute", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventEmail(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventEmail", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -125,12 +133,14 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

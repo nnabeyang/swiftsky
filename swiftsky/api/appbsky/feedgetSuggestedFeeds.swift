@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetSuggestedFeeds_Output: Codable {
-        let type = "app.bsky.feed.getSuggestedFeeds"
         var cursor: String?
         var feeds: [FeedDefs_GeneratorView]
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case feeds
         }

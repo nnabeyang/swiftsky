@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class ActorGetSuggestions_Output: Codable {
-        let type = "app.bsky.actor.getSuggestions"
         var actors: [ActorDefs_ProfileView]
         var cursor: String?
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case actors
             case cursor
         }

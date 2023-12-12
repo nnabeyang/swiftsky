@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetPosts_Output: Codable {
-        let type = "app.bsky.feed.getPosts"
         var posts: [FeedDefs_PostView]
 
         init(posts: [FeedDefs_PostView]) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case posts
         }
     }

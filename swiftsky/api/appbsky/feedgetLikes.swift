@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetLikes_Like: Codable {
-        let type = "app.bsky.feed.getLikes#like"
         var actor: ActorDefs_ProfileView
         var createdAt: String
         var indexedAt: String
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case actor
             case createdAt
             case indexedAt
@@ -29,7 +27,6 @@ extension appbskytypes {
     }
 
     class FeedGetLikes_Output: Codable {
-        let type = "app.bsky.feed.getLikes"
         var cid: String?
         var cursor: String?
         var likes: [FeedGetLikes_Like]
@@ -43,7 +40,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case cursor
             case likes

@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedSearchPosts_Output: Codable {
-        let type = "app.bsky.feed.searchPosts"
         var cursor: String?
         var hitsTotal: Int?
         var posts: [FeedDefs_PostView]
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case hitsTotal
             case posts

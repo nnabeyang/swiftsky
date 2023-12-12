@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class SyncListRepos_Output: Codable {
-        let type = "com.atproto.sync.listRepos"
         var cursor: String?
         var repos: [SyncListRepos_Repo]
 
@@ -19,14 +18,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case repos
         }
     }
 
     class SyncListRepos_Repo: Codable {
-        let type = "com.atproto.sync.listRepos#repo"
         var did: String
         var head: String
         var rev: String
@@ -38,7 +35,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case head
             case rev

@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerDescribeServer_Links: Codable {
-        let type = "com.atproto.server.describeServer#links"
         var privacyPolicy: String?
         var termsOfService: String?
 
@@ -19,14 +18,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case privacyPolicy
             case termsOfService
         }
     }
 
     class ServerDescribeServer_Output: Codable {
-        let type = "com.atproto.server.describeServer"
         var availableUserDomains: [String]
         var inviteCodeRequired: Bool?
         var links: ServerDescribeServer_Links?
@@ -38,7 +35,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case availableUserDomains
             case inviteCodeRequired
             case links

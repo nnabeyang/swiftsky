@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerCreateSession_Input: Codable {
-        let type = "com.atproto.server.createSession"
         var identifier: String
         var password: String
 
@@ -19,14 +18,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case identifier
             case password
         }
     }
 
     class ServerCreateSession_Output: Codable {
-        let type = "com.atproto.server.createSession"
         var accessJwt: String
         var did: String
         var didDoc: LexiconTypeDecoder?
@@ -46,7 +43,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case accessJwt
             case did
             case didDoc

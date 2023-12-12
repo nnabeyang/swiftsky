@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminDefs_AccountView: Codable {
-        let type = "com.atproto.admin.defs#accountView"
         var did: String
         var email: String?
         var emailConfirmedAt: String?
@@ -33,7 +32,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case email
             case emailConfirmedAt
@@ -47,7 +45,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_BlobView: Codable {
-        let type = "com.atproto.admin.defs#blobView"
         var cid: String
         var createdAt: String
         var details: AdminDefs_BlobView_Details?
@@ -65,7 +62,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case createdAt
             case details
@@ -97,18 +93,19 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsImageDetails(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#imageDetails", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsVideoDetails(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#videoDetails", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminDefs_ImageDetails: Codable {
-        let type = "com.atproto.admin.defs#imageDetails"
         var height: Int
         var width: Int
 
@@ -118,14 +115,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case height
             case width
         }
     }
 
     class AdminDefs_Moderation: Codable {
-        let type = "com.atproto.admin.defs#moderation"
         var subjectStatus: AdminDefs_SubjectStatusView?
 
         init(subjectStatus: AdminDefs_SubjectStatusView?) {
@@ -133,13 +128,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case subjectStatus
         }
     }
 
     class AdminDefs_ModerationDetail: Codable {
-        let type = "com.atproto.admin.defs#moderationDetail"
         var subjectStatus: AdminDefs_SubjectStatusView?
 
         init(subjectStatus: AdminDefs_SubjectStatusView?) {
@@ -147,13 +140,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case subjectStatus
         }
     }
 
     class AdminDefs_ModEventAcknowledge: Codable {
-        let type = "com.atproto.admin.defs#modEventAcknowledge"
         var comment: String?
 
         init(comment: String?) {
@@ -161,13 +152,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
         }
     }
 
     class AdminDefs_ModEventComment: Codable {
-        let type = "com.atproto.admin.defs#modEventComment"
         var comment: String
         var sticky: Bool?
 
@@ -177,14 +166,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case sticky
         }
     }
 
     class AdminDefs_ModEventEmail: Codable {
-        let type = "com.atproto.admin.defs#modEventEmail"
         var subjectLine: String
 
         init(subjectLine: String) {
@@ -192,13 +179,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case subjectLine
         }
     }
 
     class AdminDefs_ModEventEscalate: Codable {
-        let type = "com.atproto.admin.defs#modEventEscalate"
         var comment: String?
 
         init(comment: String?) {
@@ -206,13 +191,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
         }
     }
 
     class AdminDefs_ModEventLabel: Codable {
-        let type = "com.atproto.admin.defs#modEventLabel"
         var comment: String?
         var createLabelVals: [String]
         var negateLabelVals: [String]
@@ -224,7 +207,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case createLabelVals
             case negateLabelVals
@@ -232,7 +214,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_ModEventMute: Codable {
-        let type = "com.atproto.admin.defs#modEventMute"
         var comment: String?
         var durationInHours: Int
 
@@ -242,14 +223,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case durationInHours
         }
     }
 
     class AdminDefs_ModEventReport: Codable {
-        let type = "com.atproto.admin.defs#modEventReport"
         var comment: String?
         var reportType: String
 
@@ -259,14 +238,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case reportType
         }
     }
 
     class AdminDefs_ModEventReverseTakedown: Codable {
-        let type = "com.atproto.admin.defs#modEventReverseTakedown"
         var comment: String?
 
         init(comment: String?) {
@@ -274,13 +251,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
         }
     }
 
     class AdminDefs_ModEventTakedown: Codable {
-        let type = "com.atproto.admin.defs#modEventTakedown"
         var comment: String?
         var durationInHours: Int?
 
@@ -290,14 +265,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case durationInHours
         }
     }
 
     class AdminDefs_ModEventUnmute: Codable {
-        let type = "com.atproto.admin.defs#modEventUnmute"
         var comment: String?
 
         init(comment: String?) {
@@ -305,13 +278,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
         }
     }
 
     class AdminDefs_ModEventView: Codable {
-        let type = "com.atproto.admin.defs#modEventView"
         var createdAt: String
         var createdBy: String
         var creatorHandle: String?
@@ -333,7 +304,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case createdAt
             case createdBy
             case creatorHandle
@@ -388,26 +358,35 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsModEventTakedown(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventTakedown", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventReverseTakedown(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventReverseTakedown", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventComment(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventComment", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventReport(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventReport", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventLabel(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventLabel", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventAcknowledge(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventAcknowledge", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventEscalate(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventEscalate", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventMute(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventMute", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventEmail(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventEmail", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -434,18 +413,19 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminDefs_ModEventViewDetail: Codable {
-        let type = "com.atproto.admin.defs#modEventViewDetail"
         var createdAt: String
         var createdBy: String
         var event: AdminDefs_ModEventViewDetail_Event
@@ -463,7 +443,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case createdAt
             case createdBy
             case event
@@ -513,24 +492,32 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsModEventTakedown(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventTakedown", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventReverseTakedown(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventReverseTakedown", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventComment(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventComment", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventReport(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventReport", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventLabel(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventLabel", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventAcknowledge(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventAcknowledge", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventEscalate(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventEscalate", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsModEventMute(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#modEventMute", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -563,22 +550,25 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoView(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoView", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRepoViewNotFound(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoViewNotFound", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRecordView(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#recordView", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRecordViewNotFound(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#recordViewNotFound", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminDefs_RecordView: Codable {
-        let type = "com.atproto.admin.defs#recordView"
         var blobCids: [String]
         var cid: String
         var indexedAt: String
@@ -598,7 +588,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blobCids
             case cid
             case indexedAt
@@ -610,7 +599,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_RecordViewDetail: Codable {
-        let type = "com.atproto.admin.defs#recordViewDetail"
         var blobs: [AdminDefs_BlobView]
         var cid: String
         var indexedAt: String
@@ -632,7 +620,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blobs
             case cid
             case indexedAt
@@ -645,7 +632,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_RecordViewNotFound: Codable {
-        let type = "com.atproto.admin.defs#recordViewNotFound"
         var uri: String
 
         init(uri: String) {
@@ -653,13 +639,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case uri
         }
     }
 
     class AdminDefs_RepoBlobRef: Codable {
-        let type = "com.atproto.admin.defs#repoBlobRef"
         var cid: String
         var did: String
         var recordUri: String?
@@ -671,7 +655,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case did
             case recordUri
@@ -679,7 +662,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_RepoRef: Codable {
-        let type = "com.atproto.admin.defs#repoRef"
         var did: String
 
         init(did: String) {
@@ -687,13 +669,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
         }
     }
 
     class AdminDefs_ReportView: Codable {
-        let type = "com.atproto.admin.defs#reportView"
         var comment: String?
         var createdAt: String
         var id: Int
@@ -715,7 +695,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case createdAt
             case id
@@ -749,18 +728,19 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminDefs_ReportViewDetail: Codable {
-        let type = "com.atproto.admin.defs#reportViewDetail"
         var comment: String?
         var createdAt: String
         var id: Int
@@ -782,7 +762,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case createdAt
             case id
@@ -822,22 +801,25 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoView(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoView", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRepoViewNotFound(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoViewNotFound", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRecordView(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#recordView", forKey: .type)
+                try value.encode(to: encoder)
             case let .adminDefsRecordViewNotFound(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#recordViewNotFound", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminDefs_RepoView: Codable {
-        let type = "com.atproto.admin.defs#repoView"
         var did: String
         var email: String?
         var handle: String
@@ -861,7 +843,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case email
             case handle
@@ -875,7 +856,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_RepoViewDetail: Codable {
-        let type = "com.atproto.admin.defs#repoViewDetail"
         var did: String
         var email: String?
         var emailConfirmedAt: String?
@@ -905,7 +885,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case email
             case emailConfirmedAt
@@ -922,7 +901,6 @@ extension comatprototypes {
     }
 
     class AdminDefs_RepoViewNotFound: Codable {
-        let type = "com.atproto.admin.defs#repoViewNotFound"
         var did: String
 
         init(did: String) {
@@ -930,13 +908,11 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
         }
     }
 
     class AdminDefs_StatusAttr: Codable {
-        let type = "com.atproto.admin.defs#statusAttr"
         var applied: Bool
         var ref: String?
 
@@ -946,14 +922,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case applied
             case ref
         }
     }
 
     class AdminDefs_SubjectStatusView: Codable {
-        let type = "com.atproto.admin.defs#subjectStatusView"
         var comment: String?
         var createdAt: String
         var id: Int
@@ -987,7 +961,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case comment
             case createdAt
             case id
@@ -1027,18 +1000,19 @@ extension comatprototypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .adminDefsRepoRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.admin.defs#repoRef", forKey: .type)
+                try value.encode(to: encoder)
             case let .repoStrongRef(value):
-                try container.encode(value)
+                try container.encode("com.atproto.repo.strongRef", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class AdminDefs_VideoDetails: Codable {
-        let type = "com.atproto.admin.defs#videoDetails"
         var height: Int
         var length: Int
         var width: Int
@@ -1050,7 +1024,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case height
             case length
             case width

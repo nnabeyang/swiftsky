@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class EmbedRecord: Codable {
-        let type = "app.bsky.embed.record"
         var record: comatprototypes.RepoStrongRef
 
         init(record: comatprototypes.RepoStrongRef) {
@@ -17,13 +16,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case record
         }
     }
 
     class EmbedRecord_View: Codable {
-        let type = "app.bsky.embed.record#view"
         var record: EmbedRecord_View_Record
 
         init(record: EmbedRecord_View_Record) {
@@ -31,7 +28,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case record
         }
     }
@@ -67,24 +63,28 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .embedRecordViewRecord(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.record#viewRecord", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordViewNotFound(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.record#viewNotFound", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordViewBlocked(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.record#viewBlocked", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsGeneratorView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#generatorView", forKey: .type)
+                try value.encode(to: encoder)
             case let .graphDefsListView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.graph.defs#listView", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class EmbedRecord_ViewBlocked: Codable {
-        let type = "app.bsky.embed.record#viewBlocked"
         var author: FeedDefs_BlockedAuthor
         var blocked: Bool
         var uri: String
@@ -96,7 +96,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case author
             case blocked
             case uri
@@ -104,7 +103,6 @@ extension appbskytypes {
     }
 
     class EmbedRecord_ViewNotFound: Codable {
-        let type = "app.bsky.embed.record#viewNotFound"
         var notFound: Bool
         var uri: String
 
@@ -114,14 +112,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case notFound
             case uri
         }
     }
 
     class EmbedRecord_ViewRecord: Codable {
-        let type = "app.bsky.embed.record#viewRecord"
         var author: ActorDefs_ProfileViewBasic
         var cid: String
         var embeds: [EmbedRecord_ViewRecord_Embeds_Elem]?
@@ -141,7 +137,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case author
             case cid
             case embeds
@@ -180,16 +175,20 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .embedImagesView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.images#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedExternalView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.external#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.record#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordWithMediaView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.recordWithMedia#view", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }

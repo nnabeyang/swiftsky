@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class ActorDefs_AdultContentPref: Codable {
-        let type = "app.bsky.actor.defs#adultContentPref"
         var enabled: Bool
 
         init(enabled: Bool) {
@@ -17,13 +16,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case enabled
         }
     }
 
     class ActorDefs_ContentLabelPref: Codable {
-        let type = "app.bsky.actor.defs#contentLabelPref"
         var label: String
         var visibility: String
 
@@ -33,14 +30,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case label
             case visibility
         }
     }
 
     class ActorDefs_FeedViewPref: Codable {
-        let type = "app.bsky.actor.defs#feedViewPref"
         var feed: String
         var hideQuotePosts: Bool?
         var hideReplies: Bool?
@@ -58,7 +53,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case feed
             case hideQuotePosts
             case hideReplies
@@ -69,7 +63,6 @@ extension appbskytypes {
     }
 
     class ActorDefs_PersonalDetailsPref: Codable {
-        let type = "app.bsky.actor.defs#personalDetailsPref"
         var birthDate: String?
 
         init(birthDate: String?) {
@@ -77,7 +70,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case birthDate
         }
     }
@@ -116,26 +108,31 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .actorDefsAdultContentPref(value):
-                try container.encode(value)
+                try container.encode("app.bsky.actor.defs#adultContentPref", forKey: .type)
+                try value.encode(to: encoder)
             case let .actorDefsContentLabelPref(value):
-                try container.encode(value)
+                try container.encode("app.bsky.actor.defs#contentLabelPref", forKey: .type)
+                try value.encode(to: encoder)
             case let .actorDefsSavedFeedsPref(value):
-                try container.encode(value)
+                try container.encode("app.bsky.actor.defs#savedFeedsPref", forKey: .type)
+                try value.encode(to: encoder)
             case let .actorDefsPersonalDetailsPref(value):
-                try container.encode(value)
+                try container.encode("app.bsky.actor.defs#personalDetailsPref", forKey: .type)
+                try value.encode(to: encoder)
             case let .actorDefsFeedViewPref(value):
-                try container.encode(value)
+                try container.encode("app.bsky.actor.defs#feedViewPref", forKey: .type)
+                try value.encode(to: encoder)
             case let .actorDefsThreadViewPref(value):
-                try container.encode(value)
+                try container.encode("app.bsky.actor.defs#threadViewPref", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class ActorDefs_ProfileView: Codable {
-        let type = "app.bsky.actor.defs#profileView"
         var avatar: String?
         var description: String?
         var did: String
@@ -157,7 +154,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case avatar
             case description
             case did
@@ -170,7 +166,6 @@ extension appbskytypes {
     }
 
     class ActorDefs_ProfileViewBasic: Codable {
-        let type = "app.bsky.actor.defs#profileViewBasic"
         var avatar: String?
         var did: String
         var displayName: String?
@@ -188,7 +183,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case avatar
             case did
             case displayName
@@ -199,7 +193,6 @@ extension appbskytypes {
     }
 
     class ActorDefs_ProfileViewDetailed: Codable {
-        let type = "app.bsky.actor.defs#profileViewDetailed"
         var avatar: String?
         var banner: String?
         var description: String?
@@ -229,7 +222,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case avatar
             case banner
             case description
@@ -246,7 +238,6 @@ extension appbskytypes {
     }
 
     class ActorDefs_SavedFeedsPref: Codable {
-        let type = "app.bsky.actor.defs#savedFeedsPref"
         var pinned: [String]
         var saved: [String]
 
@@ -256,14 +247,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case pinned
             case saved
         }
     }
 
     class ActorDefs_ThreadViewPref: Codable {
-        let type = "app.bsky.actor.defs#threadViewPref"
         var prioritizeFollowedUsers: Bool?
         var sort: String?
 
@@ -273,14 +262,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case prioritizeFollowedUsers
             case sort
         }
     }
 
     class ActorDefs_ViewerState: Codable {
-        let type = "app.bsky.actor.defs#viewerState"
         var blockedBy: Bool?
         var blocking: String?
         var blockingByList: GraphDefs_ListViewBasic?
@@ -300,7 +287,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blockedBy
             case blocking
             case blockingByList

@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class SyncSubscribeRepos_Commit: Codable {
-        let type = "com.atproto.sync.subscribeRepos#commit"
         var blobs: [LexLink]
         var blocks: Data
         var commit: LexLink
@@ -39,7 +38,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blobs
             case blocks
             case commit
@@ -56,7 +54,6 @@ extension comatprototypes {
     }
 
     class SyncSubscribeRepos_Handle: Codable {
-        let type = "com.atproto.sync.subscribeRepos#handle"
         var did: String
         var handle: String
         var seq: Int
@@ -70,7 +67,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case handle
             case seq
@@ -79,7 +75,6 @@ extension comatprototypes {
     }
 
     class SyncSubscribeRepos_Info: Codable {
-        let type = "com.atproto.sync.subscribeRepos#info"
         var message: String?
         var name: String
 
@@ -89,14 +84,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case message
             case name
         }
     }
 
     class SyncSubscribeRepos_Migrate: Codable {
-        let type = "com.atproto.sync.subscribeRepos#migrate"
         var did: String
         var migrateTo: String
         var seq: Int
@@ -110,7 +103,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case migrateTo
             case seq
@@ -119,7 +111,6 @@ extension comatprototypes {
     }
 
     class SyncSubscribeRepos_RepoOp: Codable {
-        let type = "com.atproto.sync.subscribeRepos#repoOp"
         var action: String
         var cid: LexLink
         var path: String
@@ -131,7 +122,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case action
             case cid
             case path
@@ -139,7 +129,6 @@ extension comatprototypes {
     }
 
     class SyncSubscribeRepos_Tombstone: Codable {
-        let type = "com.atproto.sync.subscribeRepos#tombstone"
         var did: String
         var seq: Int
         var time: String
@@ -151,7 +140,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case seq
             case time

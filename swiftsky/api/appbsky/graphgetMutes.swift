@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphGetMutes_Output: Codable {
-        let type = "app.bsky.graph.getMutes"
         var cursor: String?
         var mutes: [ActorDefs_ProfileView]
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case mutes
         }

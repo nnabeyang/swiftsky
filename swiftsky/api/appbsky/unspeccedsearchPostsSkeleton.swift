@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class UnspeccedSearchPostsSkeleton_Output: Codable {
-        let type = "app.bsky.unspecced.searchPostsSkeleton"
         var cursor: String?
         var hitsTotal: Int?
         var posts: [UnspeccedDefs_SkeletonSearchPost]
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case hitsTotal
             case posts

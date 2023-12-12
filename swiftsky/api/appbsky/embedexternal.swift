@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class EmbedExternal: Codable {
-        let type = "app.bsky.embed.external"
         var external: EmbedExternal_External
 
         init(external: EmbedExternal_External) {
@@ -17,13 +16,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case external
         }
     }
 
     class EmbedExternal_External: Codable {
-        let type = "app.bsky.embed.external#external"
         var description: String
         var thumb: LexBlob?
         var title: String
@@ -37,7 +34,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case description
             case thumb
             case title
@@ -46,7 +42,6 @@ extension appbskytypes {
     }
 
     class EmbedExternal_View: Codable {
-        let type = "app.bsky.embed.external#view"
         var external: EmbedExternal_ViewExternal
 
         init(external: EmbedExternal_ViewExternal) {
@@ -54,13 +49,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case external
         }
     }
 
     class EmbedExternal_ViewExternal: Codable {
-        let type = "app.bsky.embed.external#viewExternal"
         var description: String
         var thumb: String?
         var title: String
@@ -74,7 +67,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case description
             case thumb
             case title

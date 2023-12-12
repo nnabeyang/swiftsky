@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminDeleteAccount_Input: Codable {
-        let type = "com.atproto.admin.deleteAccount"
         var did: String
 
         init(did: String) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
         }
     }

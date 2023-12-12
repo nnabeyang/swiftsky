@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetFeedGenerators_Output: Codable {
-        let type = "app.bsky.feed.getFeedGenerators"
         var feeds: [FeedDefs_GeneratorView]
 
         init(feeds: [FeedDefs_GeneratorView]) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case feeds
         }
     }

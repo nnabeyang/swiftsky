@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class SyncListBlobs_Output: Codable {
-        let type = "com.atproto.sync.listBlobs"
         var cids: [String]
         var cursor: String?
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cids
             case cursor
         }

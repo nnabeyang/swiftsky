@@ -17,10 +17,7 @@ struct swiftskyApp: App {
             XRPCClient.shared.postInit(auth: auth)
             Auth.shared.needAuthorization = false
         }
-        LexiconTypesMap.shared.register(id: "app.bsky.feed.post", val: appbskytypes.FeedPost.self)
-        LexiconTypesMap.shared.register(id: "app.bsky.feed.like", val: appbskytypes.FeedLike.self)
-        LexiconTypesMap.shared.register(id: "app.bsky.graph.follow", val: appbskytypes.GraphFollow.self)
-        LexiconTypesMap.shared.register(id: "app.bsky.graph.block", val: appbskytypes.GraphBlock.self)
+
         GlobalViewModel.shared.systemLanguageCode = Locale.preferredLanguageCodes[0]
         GlobalViewModel.shared.systemLanguage = Locale.current.localizedString(forLanguageCode: GlobalViewModel.shared.systemLanguageCode) ?? "en"
     }

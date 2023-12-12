@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphGetList_Output: Codable {
-        let type = "app.bsky.graph.getList"
         var cursor: String?
         var items: [GraphDefs_ListItemView]
         var list: GraphDefs_ListView
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case items
             case list

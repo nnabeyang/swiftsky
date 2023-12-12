@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminUpdateAccountEmail_Input: Codable {
-        let type = "com.atproto.admin.updateAccountEmail"
         var account: String
         var email: String
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case account
             case email
         }

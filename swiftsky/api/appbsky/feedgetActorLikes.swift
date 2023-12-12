@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetActorLikes_Output: Codable {
-        let type = "app.bsky.feed.getActorLikes"
         var cursor: String?
         var feed: [FeedDefs_FeedViewPost]
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case feed
         }

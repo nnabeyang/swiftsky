@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedGetFeedGenerator_Output: Codable {
-        let type = "app.bsky.feed.getFeedGenerator"
         var isOnline: Bool
         var isValid: Bool
         var view: FeedDefs_GeneratorView
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case isOnline
             case isValid
             case view

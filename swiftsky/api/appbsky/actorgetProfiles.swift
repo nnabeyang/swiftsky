@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class ActorGetProfiles_Output: Codable {
-        let type = "app.bsky.actor.getProfiles"
         var profiles: [ActorDefs_ProfileViewDetailed]
 
         init(profiles: [ActorDefs_ProfileViewDetailed]) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case profiles
         }
     }

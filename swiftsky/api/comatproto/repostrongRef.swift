@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class RepoStrongRef: Codable {
-        let type = "com.atproto.repo.strongRef"
         var cid: String
         var uri: String
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case uri
         }

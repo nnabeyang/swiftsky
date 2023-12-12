@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminSendEmail_Input: Codable {
-        let type = "com.atproto.admin.sendEmail"
         var content: String
         var recipientDid: String
         var senderDid: String
@@ -23,7 +22,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case content
             case recipientDid
             case senderDid
@@ -32,7 +30,6 @@ extension comatprototypes {
     }
 
     class AdminSendEmail_Output: Codable {
-        let type = "com.atproto.admin.sendEmail"
         var sent: Bool
 
         init(sent: Bool) {
@@ -40,7 +37,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case sent
         }
     }

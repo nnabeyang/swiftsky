@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class TempTransferAccount_Input: Codable {
-        let type = "com.atproto.temp.transferAccount"
         var did: String
         var handle: String
         var plcOp: LexiconTypeDecoder
@@ -21,7 +20,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case handle
             case plcOp
@@ -29,7 +27,6 @@ extension comatprototypes {
     }
 
     class TempTransferAccount_Output: Codable {
-        let type = "com.atproto.temp.transferAccount"
         var accessJwt: String
         var did: String
         var handle: String
@@ -43,7 +40,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case accessJwt
             case did
             case handle

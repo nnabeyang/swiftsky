@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class IdentityUpdateHandle_Input: Codable {
-        let type = "com.atproto.identity.updateHandle"
         var handle: String
 
         init(handle: String) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case handle
         }
     }

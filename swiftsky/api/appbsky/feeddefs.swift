@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class FeedDefs_BlockedAuthor: Codable {
-        let type = "app.bsky.feed.defs#blockedAuthor"
         var did: String
         var viewer: ActorDefs_ViewerState?
 
@@ -19,14 +18,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case did
             case viewer
         }
     }
 
     class FeedDefs_BlockedPost: Codable {
-        let type = "app.bsky.feed.defs#blockedPost"
         var author: FeedDefs_BlockedAuthor
         var blocked: Bool
         var uri: String
@@ -38,7 +35,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case author
             case blocked
             case uri
@@ -46,7 +42,6 @@ extension appbskytypes {
     }
 
     class FeedDefs_FeedViewPost: Codable {
-        let type = "app.bsky.feed.defs#feedViewPost"
         var post: FeedDefs_PostView
         var reason: FeedDefs_FeedViewPost_Reason?
         var reply: FeedDefs_ReplyRef?
@@ -58,7 +53,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case post
             case reason
             case reply
@@ -84,16 +78,16 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsReasonRepost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#reasonRepost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class FeedDefs_GeneratorView: Codable {
-        let type = "app.bsky.feed.defs#generatorView"
         var avatar: String?
         var cid: String
         var creator: ActorDefs_ProfileView
@@ -121,7 +115,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case avatar
             case cid
             case creator
@@ -137,7 +130,6 @@ extension appbskytypes {
     }
 
     class FeedDefs_GeneratorViewerState: Codable {
-        let type = "app.bsky.feed.defs#generatorViewerState"
         var like: String?
 
         init(like: String?) {
@@ -145,13 +137,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case like
         }
     }
 
     class FeedDefs_NotFoundPost: Codable {
-        let type = "app.bsky.feed.defs#notFoundPost"
         var notFound: Bool
         var uri: String
 
@@ -161,14 +151,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case notFound
             case uri
         }
     }
 
     class FeedDefs_PostView: Codable {
-        let type = "app.bsky.feed.defs#postView"
         var author: ActorDefs_ProfileViewBasic
         var cid: String
         var embed: FeedDefs_PostView_Embed?
@@ -198,7 +186,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case author
             case cid
             case embed
@@ -242,22 +229,25 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .embedImagesView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.images#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedExternalView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.external#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.record#view", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordWithMediaView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.recordWithMedia#view", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class FeedDefs_ReasonRepost: Codable {
-        let type = "app.bsky.feed.defs#reasonRepost"
         var by: ActorDefs_ProfileViewBasic
         var indexedAt: String
 
@@ -267,14 +257,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case by
             case indexedAt
         }
     }
 
     class FeedDefs_ReplyRef: Codable {
-        let type = "app.bsky.feed.defs#replyRef"
         var parent: FeedDefs_ReplyRef_Parent
         var root: FeedDefs_ReplyRef_Root
 
@@ -284,7 +272,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case parent
             case root
         }
@@ -315,14 +302,17 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsPostView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#postView", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsNotFoundPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#notFoundPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsBlockedPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#blockedPost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -352,20 +342,22 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsPostView(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#postView", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsNotFoundPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#notFoundPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsBlockedPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#blockedPost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class FeedDefs_SkeletonFeedPost: Codable {
-        let type = "app.bsky.feed.defs#skeletonFeedPost"
         var post: String
         var reason: FeedDefs_SkeletonFeedPost_Reason?
 
@@ -375,7 +367,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case post
             case reason
         }
@@ -400,16 +391,16 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsSkeletonReasonRepost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#skeletonReasonRepost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class FeedDefs_SkeletonReasonRepost: Codable {
-        let type = "app.bsky.feed.defs#skeletonReasonRepost"
         var repost: String
 
         init(repost: String) {
@@ -417,13 +408,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case repost
         }
     }
 
     class FeedDefs_ThreadgateView: Codable {
-        let type = "app.bsky.feed.defs#threadgateView"
         var cid: String?
         var lists: [GraphDefs_ListViewBasic]?
         var record: LexiconTypeDecoder?
@@ -437,7 +426,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case lists
             case record
@@ -446,7 +434,6 @@ extension appbskytypes {
     }
 
     class FeedDefs_ThreadViewPost: Codable {
-        let type = "app.bsky.feed.defs#threadViewPost"
         var parent: FeedDefs_ThreadViewPost_Parent?
         var post: FeedDefs_PostView
         var replies: [FeedDefs_ThreadViewPost_Replies_Elem]?
@@ -458,7 +445,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case parent
             case post
             case replies
@@ -490,14 +476,17 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsThreadViewPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#threadViewPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsNotFoundPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#notFoundPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsBlockedPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#blockedPost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -527,20 +516,22 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .feedDefsThreadViewPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#threadViewPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsNotFoundPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#notFoundPost", forKey: .type)
+                try value.encode(to: encoder)
             case let .feedDefsBlockedPost(value):
-                try container.encode(value)
+                try container.encode("app.bsky.feed.defs#blockedPost", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class FeedDefs_ViewerState: Codable {
-        let type = "app.bsky.feed.defs#viewerState"
         var like: String?
         var replyDisabled: Bool?
         var repost: String?
@@ -552,7 +543,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case like
             case replyDisabled
             case repost

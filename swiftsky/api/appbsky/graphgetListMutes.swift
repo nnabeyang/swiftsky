@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphGetListMutes_Output: Codable {
-        let type = "app.bsky.graph.getListMutes"
         var cursor: String?
         var lists: [GraphDefs_ListView]
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case lists
         }

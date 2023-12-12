@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphDefs_ListItemView: Codable {
-        let type = "app.bsky.graph.defs#listItemView"
         var subject: ActorDefs_ProfileView
         var uri: String
 
@@ -19,14 +18,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case subject
             case uri
         }
     }
 
     class GraphDefs_ListView: Codable {
-        let type = "app.bsky.graph.defs#listView"
         var avatar: String?
         var cid: String
         var creator: ActorDefs_ProfileView
@@ -52,7 +49,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case avatar
             case cid
             case creator
@@ -67,7 +63,6 @@ extension appbskytypes {
     }
 
     class GraphDefs_ListViewBasic: Codable {
-        let type = "app.bsky.graph.defs#listViewBasic"
         var avatar: String?
         var cid: String
         var indexedAt: String?
@@ -87,7 +82,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case avatar
             case cid
             case indexedAt
@@ -99,7 +93,6 @@ extension appbskytypes {
     }
 
     class GraphDefs_ListViewerState: Codable {
-        let type = "app.bsky.graph.defs#listViewerState"
         var blocked: String?
         var muted: Bool?
 
@@ -109,7 +102,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blocked
             case muted
         }

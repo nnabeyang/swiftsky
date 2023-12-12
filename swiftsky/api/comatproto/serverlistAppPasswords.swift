@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerListAppPasswords_AppPassword: Codable {
-        let type = "com.atproto.server.listAppPasswords#appPassword"
         var createdAt: String
         var name: String
 
@@ -19,14 +18,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case createdAt
             case name
         }
     }
 
     class ServerListAppPasswords_Output: Codable {
-        let type = "com.atproto.server.listAppPasswords"
         var passwords: [ServerListAppPasswords_AppPassword]
 
         init(passwords: [ServerListAppPasswords_AppPassword]) {
@@ -34,7 +31,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case passwords
         }
     }

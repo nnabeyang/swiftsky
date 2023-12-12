@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class NotificationRegisterPush_Input: Codable {
-        let type = "app.bsky.notification.registerPush"
         var appId: String
         var platform: String
         var serviceDid: String
@@ -23,7 +22,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case appId
             case platform
             case serviceDid

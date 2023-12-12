@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class TempFetchLabels_Output: Codable {
-        let type = "com.atproto.temp.fetchLabels"
         var labels: [LabelDefs_Label]
 
         init(labels: [LabelDefs_Label]) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case labels
         }
     }

@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminSearchRepos_Output: Codable {
-        let type = "com.atproto.admin.searchRepos"
         var cursor: String?
         var repos: [AdminDefs_RepoView]
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case repos
         }

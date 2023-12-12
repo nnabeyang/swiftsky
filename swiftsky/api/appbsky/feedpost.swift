@@ -74,16 +74,20 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .embedImages(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.images", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedExternal(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.external", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecord(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.record", forKey: .type)
+                try value.encode(to: encoder)
             case let .embedRecordWithMedia(value):
-                try container.encode(value)
+                try container.encode("app.bsky.embed.recordWithMedia", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
@@ -125,16 +129,16 @@ extension appbskytypes {
         }
 
         func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
+            var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
             case let .comAtprotoLabelDefsSelfLabels(value):
-                try container.encode(value)
+                try container.encode("com.atproto.label.defs#selfLabels", forKey: .type)
+                try value.encode(to: encoder)
             }
         }
     }
 
     class FeedPost_ReplyRef: Codable {
-        let type = "app.bsky.feed.post#replyRef"
         var parent: comatprototypes.RepoStrongRef
         var root: comatprototypes.RepoStrongRef
 
@@ -144,14 +148,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case parent
             case root
         }
     }
 
     class FeedPost_TextSlice: Codable {
-        let type = "app.bsky.feed.post#textSlice"
         var end: Int
         var start: Int
 
@@ -161,7 +163,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case end
             case start
         }

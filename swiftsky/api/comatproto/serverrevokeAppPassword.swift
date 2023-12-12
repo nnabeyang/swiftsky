@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerRevokeAppPassword_Input: Codable {
-        let type = "com.atproto.server.revokeAppPassword"
         var name: String
 
         init(name: String) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case name
         }
     }

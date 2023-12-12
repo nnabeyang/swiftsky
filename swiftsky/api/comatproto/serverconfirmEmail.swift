@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerConfirmEmail_Input: Codable {
-        let type = "com.atproto.server.confirmEmail"
         var email: String
         var token: String
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case email
             case token
         }

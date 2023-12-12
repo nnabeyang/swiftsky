@@ -1130,7 +1130,7 @@
 			repositoryURL = "https://github.com/nnabeyang/swift-atproto.git";
 			requirement = {
 				kind = exactVersion;
-				version = 0.3.0;
+				version = 0.4.1;
 			};
 		};
 		F9ACB2542AFAE53E0035DC41 /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {

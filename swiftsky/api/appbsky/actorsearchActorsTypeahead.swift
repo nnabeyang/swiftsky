@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class ActorSearchActorsTypeahead_Output: Codable {
-        let type = "app.bsky.actor.searchActorsTypeahead"
         var actors: [ActorDefs_ProfileViewBasic]
 
         init(actors: [ActorDefs_ProfileViewBasic]) {
@@ -17,7 +16,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case actors
         }
     }

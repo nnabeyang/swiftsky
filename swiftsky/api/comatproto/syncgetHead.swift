@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class SyncGetHead_Output: Codable {
-        let type = "com.atproto.sync.getHead"
         var root: String
 
         init(root: String) {
@@ -17,7 +16,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case root
         }
     }

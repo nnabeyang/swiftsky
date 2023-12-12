@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class LabelSubscribeLabels_Info: Codable {
-        let type = "com.atproto.label.subscribeLabels#info"
         var message: String?
         var name: String
 
@@ -19,14 +18,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case message
             case name
         }
     }
 
     class LabelSubscribeLabels_Labels: Codable {
-        let type = "com.atproto.label.subscribeLabels#labels"
         var labels: [LabelDefs_Label]
         var seq: Int
 
@@ -36,7 +33,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case labels
             case seq
         }

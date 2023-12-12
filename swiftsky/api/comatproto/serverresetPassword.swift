@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerResetPassword_Input: Codable {
-        let type = "com.atproto.server.resetPassword"
         var password: String
         var token: String
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case password
             case token
         }

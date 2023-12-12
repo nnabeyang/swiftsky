@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class RepoPutRecord_Input: Codable {
-        let type = "com.atproto.repo.putRecord"
         var collection: String
         var record: LexiconTypeDecoder
         var repo: String
@@ -29,7 +28,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case collection
             case record
             case repo
@@ -41,7 +39,6 @@ extension comatprototypes {
     }
 
     class RepoPutRecord_Output: Codable {
-        let type = "com.atproto.repo.putRecord"
         var cid: String
         var uri: String
 
@@ -51,7 +48,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cid
             case uri
         }

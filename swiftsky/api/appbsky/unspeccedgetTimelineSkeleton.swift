@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class UnspeccedGetTimelineSkeleton_Output: Codable {
-        let type = "app.bsky.unspecced.getTimelineSkeleton"
         var cursor: String?
         var feed: [FeedDefs_SkeletonFeedPost]
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case feed
         }

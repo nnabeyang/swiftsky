@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class AdminDisableAccountInvites_Input: Codable {
-        let type = "com.atproto.admin.disableAccountInvites"
         var account: String
         var note: String?
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case account
             case note
         }

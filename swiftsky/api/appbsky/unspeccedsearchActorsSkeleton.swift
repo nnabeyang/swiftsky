@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class UnspeccedSearchActorsSkeleton_Output: Codable {
-        let type = "app.bsky.unspecced.searchActorsSkeleton"
         var actors: [UnspeccedDefs_SkeletonSearchActor]
         var cursor: String?
         var hitsTotal: Int?
@@ -21,7 +20,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case actors
             case cursor
             case hitsTotal

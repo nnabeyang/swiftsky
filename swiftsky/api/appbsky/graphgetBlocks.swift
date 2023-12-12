@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class GraphGetBlocks_Output: Codable {
-        let type = "app.bsky.graph.getBlocks"
         var blocks: [ActorDefs_ProfileView]
         var cursor: String?
 
@@ -19,7 +18,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case blocks
             case cursor
         }

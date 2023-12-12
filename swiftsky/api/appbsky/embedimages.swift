@@ -9,7 +9,6 @@ import Foundation
 
 extension appbskytypes {
     class EmbedImages: Codable {
-        let type = "app.bsky.embed.images"
         var images: [EmbedImages_Image]
 
         init(images: [EmbedImages_Image]) {
@@ -17,13 +16,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case images
         }
     }
 
     class EmbedImages_AspectRatio: Codable {
-        let type = "app.bsky.embed.images#aspectRatio"
         var height: Int
         var width: Int
 
@@ -33,14 +30,12 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case height
             case width
         }
     }
 
     class EmbedImages_Image: Codable {
-        let type = "app.bsky.embed.images#image"
         var alt: String
         var aspectRatio: EmbedImages_AspectRatio?
         var image: LexBlob
@@ -52,7 +47,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case alt
             case aspectRatio
             case image
@@ -60,7 +54,6 @@ extension appbskytypes {
     }
 
     class EmbedImages_View: Codable {
-        let type = "app.bsky.embed.images#view"
         var images: [EmbedImages_ViewImage]
 
         init(images: [EmbedImages_ViewImage]) {
@@ -68,13 +61,11 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case images
         }
     }
 
     class EmbedImages_ViewImage: Codable {
-        let type = "app.bsky.embed.images#viewImage"
         var alt: String
         var aspectRatio: EmbedImages_AspectRatio?
         var fullsize: String
@@ -88,7 +79,6 @@ extension appbskytypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case alt
             case aspectRatio
             case fullsize

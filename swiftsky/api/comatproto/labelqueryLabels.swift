@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class LabelQueryLabels_Output: Codable {
-        let type = "com.atproto.label.queryLabels"
         var cursor: String?
         var labels: [LabelDefs_Label]
 
@@ -19,7 +18,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case cursor
             case labels
         }

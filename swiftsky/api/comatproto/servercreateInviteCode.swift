@@ -9,7 +9,6 @@ import Foundation
 
 extension comatprototypes {
     class ServerCreateInviteCode_Input: Codable {
-        let type = "com.atproto.server.createInviteCode"
         var forAccount: String?
         var useCount: Int
 
@@ -19,14 +18,12 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case forAccount
             case useCount
         }
     }
 
     class ServerCreateInviteCode_Output: Codable {
-        let type = "com.atproto.server.createInviteCode"
         var code: String
 
         init(code: String) {
@@ -34,7 +31,6 @@ extension comatprototypes {
         }
 
         enum CodingKeys: String, CodingKey {
-            case type = "$type"
             case code
         }
     }
